@@ -98,14 +98,14 @@
                                                 <a href="{{ url('servicios/'.$service->id.'/editar') }}" class="link"><i class="typcn typcn-edit"></i> Editar</a>
                                             </li>
                                             <!-- /.item -->
-                                            <li class="item">
+                                            {{-- <li class="item">
                                                 <a href="{{ url('servicios/'.$service->id.'/download') }}" class="link"><i class="typcn typcn-download"></i> Descargar</a>
                                             </li>
                                             <!-- /.item -->
                                             <li class="item">
                                                 <a href="{{ url('servicios/'.$service->id.'/pdf') }}" class="link" target="_blank"><i class="typcn typcn-printer"></i> Imprimir</a>
                                             </li>
-                                            <!-- /.item -->
+                                            <!-- /.item --> --}}
                                             <li class="item">
                                                 {{ Form::open(['url' => url('servicios', $service->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
                                                     <button type="submit" class="link"><i class="typcn typcn-delete"></i> Eliminar</button>
