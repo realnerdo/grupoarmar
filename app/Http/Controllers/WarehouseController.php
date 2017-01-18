@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Requests\WarehouseRequest;
+use Excel;
 
 class WarehouseController extends Controller
 {
@@ -27,6 +28,23 @@ class WarehouseController extends Controller
     {
         $warehouses = Warehouse::latest()->paginate(5);
         return view('almacenes.index', compact('warehouses'));
+    }
+
+    /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('almacenes', function($excel) {
+            $excel->setTitle('Almacenes');
+            $excel->sheet('Almacenes', function($sheet) {
+                $warehouses = Warehouse::all();
+                $sheet->fromModel($warehouses);
+            });
+        });
+        return $xls->download('xls');
     }
 
     /**

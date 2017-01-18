@@ -9,7 +9,7 @@ use App\Warehouse;
 use App\Picture;
 use Illuminate\Http\Request;
 use App\Http\Requests\EquipmentRequest;
-
+use Excel;
 
 class EquipmentController extends Controller
 {
@@ -80,6 +80,23 @@ class EquipmentController extends Controller
     }
 
     /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('equipos', function($excel) {
+            $excel->setTitle('Equipos');
+            $excel->sheet('Equipos', function($sheet) {
+                $equipments = Equipment::all();
+                $sheet->fromModel($equipments);
+            });
+        });
+        return $xls->download('xls');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -117,6 +134,8 @@ class EquipmentController extends Controller
                 'description' => $request->input('group_id')
             ]);
             $request->merge(['group_id' => $group->id]);
+        } else {
+            $group = Group::find($request->input('group_id'));
         }
 
         if(!is_numeric($request->input('warehouse_id'))){
@@ -126,6 +145,12 @@ class EquipmentController extends Controller
             ]);
             $request->merge(['warehouse_id' => $warehouse->id]);
         }
+        $group_folio = str_replace(' ', '', strtoupper(substr($group->title, 0, 2)));
+        $title_folio = str_replace(' ', '', strtoupper(substr($request->input('title'), 0, 2)));
+        $latest_folio = Equipment::where('folio', 'like', $group_folio.$title_folio.'%')->first();
+        $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : (sprintf('%05d', substr($latest_folio->folio, -5) + 1));
+        $folio = $group_folio.$title_folio.'-'.$latest;
+        $request->merge(['folio' => $folio]);
 
         $equipment = Equipment::create($request->all());
 
@@ -230,5 +255,6 @@ class EquipmentController extends Controller
     {
         $equipment->delete();
         session()->flash('flash_message', 'Se ha eliminado el equipo');
+        return redirect('equipos');
     }
 }

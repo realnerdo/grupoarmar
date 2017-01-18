@@ -6,6 +6,7 @@ use App\Maintenance;
 use App\Equipment;
 use Illuminate\Http\Request;
 use App\Http\Requests\MaintenanceRequest;
+use Excel;
 
 class MaintenanceController extends Controller
 {
@@ -28,6 +29,23 @@ class MaintenanceController extends Controller
     {
         $maintenances = Maintenance::latest()->paginate(5);
         return view('mantenimientos.index', compact('maintenances'));
+    }
+
+    /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('mantenimientos', function($excel) {
+            $excel->setTitle('Mantenimientos');
+            $excel->sheet('Mantenimientos', function($sheet) {
+                $maintenances = Maintenance::all();
+                $sheet->fromModel($maintenances);
+            });
+        });
+        return $xls->download('xls');
     }
 
     /**

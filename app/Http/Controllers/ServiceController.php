@@ -9,6 +9,7 @@ use App\Equipment;
 use App\ServiceDetail;
 use Illuminate\Http\Request;
 use App\Http\Requests\ServiceRequest;
+use Excel;
 
 class ServiceController extends Controller
 {
@@ -31,6 +32,23 @@ class ServiceController extends Controller
     {
         $services = Service::latest()->paginate(5);
         return view('servicios.index', compact('services'));
+    }
+
+    /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('servicios', function($excel) {
+            $excel->setTitle('Servicios');
+            $excel->sheet('Servicios', function($sheet) {
+                $services = Service::all();
+                $sheet->fromModel($services);
+            });
+        });
+        return $xls->download('xls');
     }
 
     /**

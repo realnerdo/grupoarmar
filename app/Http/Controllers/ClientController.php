@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
+use Excel;
 
 class ClientController extends Controller
 {
@@ -42,6 +43,40 @@ class ClientController extends Controller
     }
 
     /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('clientes', function($excel) {
+            $excel->setTitle('Clientes');
+            $excel->sheet('Clientes', function($sheet) {
+                $clients = Client::all();
+                $sheet->fromModel($clients);
+            });
+        });
+        return $xls->download('xls');
+    }
+
+    /**
+     * Export to PDF the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportPDF()
+    {
+        $xls = Excel::create('clientes', function($excel) {
+            $excel->setTitle('Clientes');
+            $excel->sheet('Clientes', function($sheet) {
+                $clients = Client::all();
+                $sheet->fromModel($clients);
+            });
+        });
+        return $xls->download('pdf');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -62,17 +97,6 @@ class ClientController extends Controller
         $client = Client::create($request->all());
         session()->flash('flash_message', 'Se ha creado el cliente: '.$client->name);
         return redirect('clientes');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Client $client)
-    {
-        //
     }
 
     /**

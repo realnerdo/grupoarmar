@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Brand;
 use Illuminate\Http\Request;
 use App\Http\Requests\BrandRequest;
+use Excel;
 
 class BrandController extends Controller
 {
@@ -30,6 +31,23 @@ class BrandController extends Controller
     }
 
     /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('marcas', function($excel) {
+            $excel->setTitle('Marcas');
+            $excel->sheet('Marcas', function($sheet) {
+                $brands = Brand::all();
+                $sheet->fromModel($brands);
+            });
+        });
+        return $xls->download('xls');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -50,17 +68,6 @@ class BrandController extends Controller
         $brand = Brand::create($request->all());
         session()->flash('flash_message', 'Se ha creado la marca: '.$brand->title);
         return redirect('marcas');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Brand  $brand
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Brand $brand)
-    {
-        //
     }
 
     /**

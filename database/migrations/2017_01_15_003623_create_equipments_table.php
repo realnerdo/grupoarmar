@@ -15,6 +15,7 @@ class CreateEquipmentsTable extends Migration
     {
         Schema::create('equipments', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('folio');
             $table->string('title');
             $table->text('description');
             $table->string('serial');

@@ -95,8 +95,8 @@
     <!-- /.col-3 -->
     <div class="col-3">
         <div class="form-group">
-            {{ Form::label('personal', 'Personal', ['class' => 'label']) }}
-            {{ Form::checkbox('personal', 1, null, ['class' => 'checkbox']) }}
+            {{ Form::label('particular', 'Particular', ['class' => 'label']) }}
+            {{ Form::checkbox('particular', 1, null, ['class' => 'checkbox']) }}
         </div>
         <!-- /.form-group -->
     </div>

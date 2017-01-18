@@ -25,6 +25,7 @@ class Equipment extends Model
      * @var array
      */
     protected $fillable = [
+        'folio',
         'title',
         'description',
         'serial',

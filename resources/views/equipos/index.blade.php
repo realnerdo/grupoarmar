@@ -4,7 +4,7 @@
 @section('sectionTitle', 'Equipos')
 @section('add')
     <div class="buttons pr">
-        {{-- <button class="btn btn-green modal-trigger" data-modal="upload-excel"><i class="typcn typcn-plus"></i> Importar equipos</button> --}}
+        <a href="{{ url('equipos/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
         <a href="{{ url('equipos/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Agregar equipo</a>
     </div>
     <!-- /.buttons -->
@@ -64,6 +64,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Folio</th>
                             <th>Número de serie</th>
                             <th>Foto</th>
                             <th>Descripción</th>
@@ -74,6 +75,7 @@
                     <tbody>
                         @foreach ($equipments as $equipment)
                             <tr>
+                                <td>{{ $equipment->folio }}</td>
                                 <td>{{ $equipment->serial }}</td>
                                 <td>
                                     <div class="equipment-photo">

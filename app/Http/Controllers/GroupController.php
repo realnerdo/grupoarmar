@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use Illuminate\Http\Request;
 use App\Http\Requests\GroupRequest;
+use Excel;
 
 class GroupController extends Controller
 {
@@ -27,6 +28,23 @@ class GroupController extends Controller
     {
         $groups = Group::latest()->paginate(5);
         return view('grupos.index', compact('groups'));
+    }
+
+    /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('grupos', function($excel) {
+            $excel->setTitle('Grupos');
+            $excel->sheet('Grupos', function($sheet) {
+                $groups = Group::all();
+                $sheet->fromModel($groups);
+            });
+        });
+        return $xls->download('xls');
     }
 
     /**

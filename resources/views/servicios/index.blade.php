@@ -4,6 +4,7 @@
 @section('sectionTitle', 'Servicios')
 @section('add')
     <div class="buttons pr">
+        <a href="{{ url('servicios/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
         <a href="{{ url('servicios/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Nueva servicio</a>
     </div>
     <!-- /.buttons -->

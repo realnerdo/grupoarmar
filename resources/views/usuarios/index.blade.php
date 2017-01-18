@@ -4,6 +4,7 @@
 @section('sectionTitle', 'Usuarios')
 @section('add')
     <div class="buttons pr">
+        <a href="{{ url('usuarios/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
         <a href="{{ url('usuarios/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Nuevo usuario</a>
     </div>
     <!-- /.buttons -->
@@ -66,7 +67,7 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td>{{ $user->name }} {!! ($user->role == 'admin') ? '<span class="badge badge-blue">Administrador</span>' : '<span class="badge badge-blue">Vendedor</span>' !!}</td>
+                                <td>{{ $user->name }} {!! ($user->role == 'admin') ? '<span class="badge badge-blue">Administrador</span>' : '<span class="badge badge-blue">Empleado</span>' !!}</td>
                                 <td>{{ $user->username }}</td>
                                 <td><a href="mailto:{{ $user->email }}" class="link">{{ $user->email }}</a></td>
                                 <td>{{ ucfirst(\Date::createFromFormat('Y-m-d H:i:s', $user->created_at)->diffForHumans()) }}</td>

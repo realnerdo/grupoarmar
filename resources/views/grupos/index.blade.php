@@ -4,6 +4,7 @@
 @section('sectionTitle', 'Grupos')
 @section('add')
     <div class="buttons pr">
+        <a href="{{ url('grupos/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
         <a href="{{ url('grupos/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Agregar grupo</a>
     </div>
     <!-- /.buttons -->

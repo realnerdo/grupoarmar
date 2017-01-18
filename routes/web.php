@@ -22,6 +22,7 @@ Route::get('usuarios/nuevo', 'UserController@create');
 Route::patch('usuarios/{user}', 'UserController@update');
 Route::delete('usuarios/{user}', 'UserController@destroy');
 Route::get('usuarios/{user}/editar', 'UserController@edit');
+Route::get('usuarios/exportExcel', 'UserController@exportExcel');
 
 // Permisos
 Route::get('permisos', 'PermissionController@index');
@@ -38,6 +39,7 @@ Route::get('almacenes/nuevo', 'WarehouseController@create');
 Route::patch('almacenes/{warehouse}', 'WarehouseController@update');
 Route::delete('almacenes/{warehouse}', 'WarehouseController@destroy');
 Route::get('almacenes/{warehouse}/editar', 'WarehouseController@edit');
+Route::get('almacenes/exportExcel', 'WarehouseController@exportExcel');
 
 // Grupos
 Route::get('grupos', 'GroupController@index');
@@ -46,6 +48,7 @@ Route::get('grupos/nuevo', 'GroupController@create');
 Route::patch('grupos/{group}', 'GroupController@update');
 Route::delete('grupos/{group}', 'GroupController@destroy');
 Route::get('grupos/{group}/editar', 'GroupController@edit');
+Route::get('grupos/exportExcel', 'GroupController@exportExcel');
 
 // Marcas
 Route::get('marcas', 'BrandController@index');
@@ -54,6 +57,7 @@ Route::get('marcas/nuevo', 'BrandController@create');
 Route::patch('marcas/{brand}', 'BrandController@update');
 Route::delete('marcas/{brand}', 'BrandController@destroy');
 Route::get('marcas/{brand}/editar', 'BrandController@edit');
+Route::get('marcas/exportExcel', 'BrandController@exportExcel');
 
 // Equipos
 Route::get('equipos', 'EquipmentController@index');
@@ -64,6 +68,7 @@ Route::delete('equipos/{equipment}', 'EquipmentController@destroy');
 Route::get('equipos/{equipment}/editar', 'EquipmentController@edit');
 Route::get('equipos/getEquipments', 'EquipmentController@getEquipments');
 Route::get('equipos/getEquipmentById/{id}', 'EquipmentController@getEquipmentById');
+Route::get('equipos/exportExcel', 'EquipmentController@exportExcel');
 
 // Clientes
 Route::get('clientes', 'ClientController@index');
@@ -73,6 +78,8 @@ Route::patch('clientes/{client}', 'ClientController@update');
 Route::delete('clientes/{client}', 'ClientController@destroy');
 Route::get('clientes/{client}/editar', 'ClientController@edit');
 Route::get('clientes/getClientById/{id}', 'ClientController@getClientById');
+Route::get('clientes/exportExcel', 'ClientController@exportExcel');
+// Route::get('clientes/exportPdf', 'ClientController@exportPdf');
 
 // Servicios
 Route::get('servicios', 'ServiceController@index');
@@ -81,6 +88,7 @@ Route::get('servicios/nuevo', 'ServiceController@create');
 Route::patch('servicios/{service}', 'ServiceController@update');
 Route::delete('servicios/{service}', 'ServiceController@destroy');
 Route::get('servicios/{service}/editar', 'ServiceController@edit');
+Route::get('servicios/exportExcel', 'ServiceController@exportExcel');
 
 // Mantenimientos
 Route::get('mantenimientos', 'MaintenanceController@index');
@@ -89,6 +97,7 @@ Route::get('mantenimientos/nuevo', 'MaintenanceController@create');
 Route::patch('mantenimientos/{maintenance}', 'MaintenanceController@update');
 Route::delete('mantenimientos/{maintenance}', 'MaintenanceController@destroy');
 Route::get('mantenimientos/{maintenance}/editar', 'MaintenanceController@edit');
+Route::get('mantenimientos/exportExcel', 'MaintenanceController@exportExcel');
 
 // Ajustes
 Route::get('ajustes', 'SettingController@index');

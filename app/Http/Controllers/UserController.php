@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Excel;
 
 class UserController extends Controller
 {
@@ -27,6 +28,23 @@ class UserController extends Controller
     {
         $users = User::latest()->paginate(5);
         return view('usuarios.index', compact('users'));
+    }
+
+    /**
+     * Export to Excel the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportExcel()
+    {
+        $xls = Excel::create('usuarios', function($excel) {
+            $excel->setTitle('Usuarios');
+            $excel->sheet('Usuarios', function($sheet) {
+                $users = User::all();
+                $sheet->fromModel($users);
+            });
+        });
+        return $xls->download('xls');
     }
 
     /**
