@@ -22,8 +22,8 @@ class EquipmentDetail extends Model
         return $this->belongsTo('App\Equipment');
     }
 
-    public function maintenances()
-    {
-        return $this->hasMany('App\Maintenance');
-    }
+    // public function maintenances()
+    // {
+    //     return $this->hasMany('App\Maintenance');
+    // }
 }

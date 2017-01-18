@@ -24,10 +24,10 @@ class MaintenanceRequest extends FormRequest
     public function rules()
     {
         return [
+            'equipment_detail_folio' => 'required',
             'reason' => 'required',
             'description' => 'required',
             'perform_date' => 'required',
-            'place' => 'required',
             'responsible' => 'required',
             'supplier_id' => 'required'
         ];
@@ -41,10 +41,10 @@ class MaintenanceRequest extends FormRequest
     public function messages()
     {
         return [
+            'equipment_detail_folio.required' => 'No has seleccionado un equipo',
             'reason.required' => 'No has escrito un motivo o causa',
             'description.required' => 'No has escrito una descripción',
             'perform_date.required' => 'No has seleccionado una fecha de realización',
-            'place.required' => 'No has escrito un lugar de mantenimiento',
             'responsible.required' => 'No has escrito un encargado de mantenimiento',
             'supplier_id.required' => 'No has seleccionado un proveedor'
         ];

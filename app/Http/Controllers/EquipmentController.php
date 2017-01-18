@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Equipment;
+use App\EquipmentDetail;
 use App\Brand;
 use App\Group;
 use App\Warehouse;
@@ -126,6 +127,8 @@ class EquipmentController extends Controller
                 'description' => $request->input('brand_id')
             ]);
             $request->merge(['brand_id' => $brand->id]);
+        } else {
+            $brand = Brand::find($request->input('brand_id'));
         }
 
         if(!is_numeric($request->input('group_id'))){
@@ -145,38 +148,26 @@ class EquipmentController extends Controller
             ]);
             $request->merge(['warehouse_id' => $warehouse->id]);
         }
+
         $group_folio = str_replace(' ', '', strtoupper(substr($group->title, 0, 2)));
+        $brand_folio = str_replace(' ', '', strtoupper(substr($brand->title, 0, 2)));
         $title_folio = str_replace(' ', '', strtoupper(substr($request->input('title'), 0, 2)));
-        $latest_folio = Equipment::where('folio', 'like', $group_folio.$title_folio.'%')->first();
-        $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : (sprintf('%05d', substr($latest_folio->folio, -5) + 1));
-        $folio = $group_folio.$title_folio.'-'.$latest;
-        $request->merge(['folio' => $folio]);
+        $folio_first = $group_folio.$brand_folio.$title_folio;
+        $request->merge(['folio' => $folio_first]);
 
         $equipment = Equipment::create($request->all());
 
-        if($request->hasFile('photos')){
-            foreach ($request->file('photos') as $photo) {
-                $url = $photo->store('public/equipments');
-                $picture = Picture::create([
-                    'name' => $photo->getClientOriginalName(),
-                    'url' => str_replace('public/', '', $url)
-                ]);
-                $equipment->pictures()->sync([$picture->id]);
-            }
+        for ($i=0; $i < $request->input('stock'); $i++) {
+            $latest_folio = EquipmentDetail::where('folio', 'like', $folio_first.'%')->orderBy('id', 'desc')->first();
+            $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : sprintf('%05d', (substr($latest_folio->folio, -5) + 1));
+            $folio = $folio_first.'-'.$latest;
+            $equipment->equipment_details()->create([
+                'folio' => $folio
+            ]);
         }
+
         session()->flash('flash_message', 'Se ha agregado el equipo: '.$equipment->title);
         return redirect('equipos');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Equipment  $equipment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Equipment $equipment)
-    {
-        //
     }
 
     /**
@@ -211,6 +202,8 @@ class EquipmentController extends Controller
                 'description' => $request->input('brand_id')
             ]);
             $request->merge(['brand_id' => $brand->id]);
+        } else {
+            $brand = Brand::find($request->input('brand_id'));
         }
 
         if(!is_numeric($request->input('group_id'))){
@@ -219,6 +212,8 @@ class EquipmentController extends Controller
                 'description' => $request->input('group_id')
             ]);
             $request->merge(['group_id' => $group->id]);
+        } else {
+            $group = Group::find($request->input('group_id'));
         }
 
         if(!is_numeric($request->input('warehouse_id'))){
@@ -229,18 +224,27 @@ class EquipmentController extends Controller
             $request->merge(['warehouse_id' => $warehouse->id]);
         }
 
+        $group_folio = str_replace(' ', '', strtoupper(substr($group->title, 0, 2)));
+        $brand_folio = str_replace(' ', '', strtoupper(substr($brand->title, 0, 2)));
+        $title_folio = str_replace(' ', '', strtoupper(substr($request->input('title'), 0, 2)));
+        $folio_first = $group_folio.$brand_folio.$title_folio;
+        $request->merge(['folio' => $folio_first]);
+
         $equipment->update($request->all());
 
-        if($request->hasFile('photos')){
-            foreach ($request->file('photos') as $photo) {
-                $url = $photo->store('public/equipments');
-                $picture = Picture::create([
-                    'name' => $photo->getClientOriginalName(),
-                    'url' => str_replace('public/', '', $url)
-                ]);
-                $equipment->pictures()->sync([$picture->id]);
-            }
+        foreach ($equipment->equipment_details as $equipment_detail) {
+            $equipment_detail->delete();
         }
+
+        for ($i=0; $i < $request->input('stock'); $i++) {
+            $latest_folio = EquipmentDetail::where('folio', 'like', $folio_first.'%')->orderBy('id', 'desc')->first();
+            $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : sprintf('%05d', (substr($latest_folio->folio, -5) + 1));
+            $folio = $folio_first.'-'.$latest;
+            $equipment->equipment_details()->create([
+                'folio' => $folio
+            ]);
+        }
+
         session()->flash('flash_message', 'Se ha actualizado el equipo: '.$equipment->title);
         return redirect('equipos');
     }

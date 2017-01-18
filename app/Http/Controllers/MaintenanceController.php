@@ -57,7 +57,7 @@ class MaintenanceController extends Controller
      */
     public function create()
     {
-        $equipment_details = EquipmentDetail::pluck('title', 'id');
+        $equipment_details = EquipmentDetail::pluck('folio', 'folio');
         $equipment_details = [''=>''] + $equipment_details->toArray();
         $suppliers = Supplier::pluck('title', 'id');
         $suppliers = [''=>''] + $suppliers->toArray();
@@ -79,9 +79,9 @@ class MaintenanceController extends Controller
             $request->merge(['supplier_id' => $supplier->id]);
         }
 
-        $equipment_detail = EquipmentDetail::find($request->input('equipment_detail_id'));
+        $equipment_detail = EquipmentDetail::where('folio', $request->input('equipment_detail_folio'))->first();
         if($equipment_detail){
-            $maintenance = $equipment_detail->maintenances()->create($request->all());
+            $maintenance = Maintenance::create($request->all());
         } // TODO: Make validation for when equipment not found
 
         session()->flash('flash_message', 'Se ha creado el mantenimiento: '.$maintenance->name);
@@ -96,7 +96,7 @@ class MaintenanceController extends Controller
      */
     public function edit(Maintenance $maintenance)
     {
-        $equipment_details = Equipment::pluck('title', 'id');
+        $equipment_details = Equipment::pluck('folio', 'folio');
         $equipment_details = [''=>''] + $equipment_details->toArray();
         $suppliers = Supplier::pluck('title', 'id');
         $suppliers = [''=>''] + $suppliers->toArray();

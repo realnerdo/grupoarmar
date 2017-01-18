@@ -15,7 +15,6 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'personal',
         'event',
         'date_start',
         'date_end',

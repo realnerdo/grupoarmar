@@ -52,7 +52,7 @@
     <!-- /.col-3 -->
     <div class="col-3">
         <div class="form-group">
-            {{ Form::label('address', 'Dirección', ['class' => 'label']) }}
+            {{ Form::label('address', 'Domicilio', ['class' => 'label']) }}
             {{ Form::input('text', 'address', ($service->client) ? $service->client->address : null, ['class' => 'input', 'id' => 'address']) }}
         </div>
         <!-- /.form-group -->
@@ -79,7 +79,7 @@
     <!-- /.col-3 -->
     <div class="col-3">
         <div class="form-group">
-            {{ Form::label('date_start', 'Fecha de entrega', ['class' => 'label']) }}
+            {{ Form::label('date_start', 'Fecha de inicio', ['class' => 'label']) }}
             {{ Form::input('text', 'date_start', null, ['class' => 'input datepicker']) }}
         </div>
         <!-- /.form-group -->
@@ -87,16 +87,8 @@
     <!-- /.col-3 -->
     <div class="col-3">
         <div class="form-group">
-            {{ Form::label('date_end', 'Fecha de término', ['class' => 'label']) }}
+            {{ Form::label('date_end', 'Fecha de devolución', ['class' => 'label']) }}
             {{ Form::input('text', 'date_end', null, ['class' => 'input datepicker']) }}
-        </div>
-        <!-- /.form-group -->
-    </div>
-    <!-- /.col-3 -->
-    <div class="col-3">
-        <div class="form-group">
-            {{ Form::label('particular', 'Particular', ['class' => 'label']) }}
-            {{ Form::checkbox('particular', 1, null, ['class' => 'checkbox']) }}
         </div>
         <!-- /.form-group -->
     </div>

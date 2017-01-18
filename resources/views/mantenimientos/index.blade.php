@@ -60,11 +60,11 @@
                     <tbody>
                         @foreach ($maintenances as $maintenance)
                             <tr>
-                                <td>{{ $maintenance->equipment->title }}</td>
+                                <td>{{ $maintenance->equipment_detail_folio }}</td>
                                 <td>{{ $maintenance->reason }}</td>
                                 <td>{{ $maintenance->description }}</td>
                                 <td>{{ ucfirst(\Date::createFromFormat('Y-m-d', $maintenance->perform_date)->diffForHumans()) }}</td>
-                                <td>{{ $maintenance->place }}</td>
+                                <td>{{ $maintenance->supplier->title }}</td>
                                 <td>{{ $maintenance->responsible }}</td>
                                 <td>
                                     <span href="#" class="dropdown">
