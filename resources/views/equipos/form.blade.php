@@ -1,17 +1,4 @@
 <div class="form-group">
-    {{ Form::label('photos[]', 'Fotos', ['class' => 'label']) }}
-    @if (isset($equipment->pictures) && $equipment->pictures())
-        @foreach ($equipment->pictures as $picture)
-            <div class="picture">
-                {{ Html::image(asset('storage/'.$picture->url), $picture->name, ['class' => 'img']) }}
-            </div>
-            <!-- /.picture -->
-        @endforeach
-    @endif
-    {{ Form::file('photos[]', ['class' => 'file', 'multiple']) }}
-</div>
-<!-- /.form-group -->
-<div class="form-group">
     {{ Form::label('title', 'Título', ['class' => 'label']) }}
     {{ Form::input('text', 'title', null, ['class' => 'input']) }}
 </div>
@@ -19,11 +6,6 @@
 <div class="form-group">
     {{ Form::label('description', 'Descripción', ['class' => 'label']) }}
     {{ Form::textarea('description', null, ['size' => '10x3', 'class' => 'input autosizable']) }}
-</div>
-<!-- /.form-group -->
-<div class="form-group">
-    {{ Form::label('serial', 'Número de serie', ['class' => 'label']) }}
-    {{ Form::input('text', 'serial', null, ['class' => 'input']) }}
 </div>
 <!-- /.form-group -->
 <div class="form-group">

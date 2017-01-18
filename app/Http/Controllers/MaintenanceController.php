@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Maintenance;
 use App\Equipment;
+use App\EquipmentDetail;
+use App\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Requests\MaintenanceRequest;
 use Excel;
@@ -55,9 +57,11 @@ class MaintenanceController extends Controller
      */
     public function create()
     {
-        $equipments = Equipment::pluck('title', 'id');
-        $equipments = [''=>''] + $equipments->toArray();
-        return view('mantenimientos.create', compact('equipments'));
+        $equipment_details = EquipmentDetail::pluck('title', 'id');
+        $equipment_details = [''=>''] + $equipment_details->toArray();
+        $suppliers = Supplier::pluck('title', 'id');
+        $suppliers = [''=>''] + $suppliers->toArray();
+        return view('mantenimientos.create', compact('equipment_details', 'suppliers'));
     }
 
     /**
@@ -68,23 +72,20 @@ class MaintenanceController extends Controller
      */
     public function store(MaintenanceRequest $request)
     {
-        $equipment = Equipment::find($request->all())->first();
-        if($equipment){
-            $maintenance = $equipment->maintenances()->create($request->all());
+        if(!is_numeric($request->input('supplier_id'))){
+            $supplier = Supplier::create([
+                'title' => $request->input('supplier_id')
+            ]);
+            $request->merge(['supplier_id' => $supplier->id]);
+        }
+
+        $equipment_detail = EquipmentDetail::find($request->input('equipment_detail_id'));
+        if($equipment_detail){
+            $maintenance = $equipment_detail->maintenances()->create($request->all());
         } // TODO: Make validation for when equipment not found
+
         session()->flash('flash_message', 'Se ha creado el mantenimiento: '.$maintenance->name);
         return redirect('mantenimientos');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Maintenance  $maintenance
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Maintenance $maintenance)
-    {
-        //
     }
 
     /**
@@ -95,9 +96,11 @@ class MaintenanceController extends Controller
      */
     public function edit(Maintenance $maintenance)
     {
-        $equipments = Equipment::pluck('title', 'id');
-        $equipments = [''=>''] + $equipments->toArray();
-        return view('mantenimientos.edit', compact('maintenance', 'equipments'));
+        $equipment_details = Equipment::pluck('title', 'id');
+        $equipment_details = [''=>''] + $equipment_details->toArray();
+        $suppliers = Supplier::pluck('title', 'id');
+        $suppliers = [''=>''] + $suppliers->toArray();
+        return view('mantenimientos.edit', compact('maintenance', 'equipment_details', 'suppliers'));
     }
 
     /**

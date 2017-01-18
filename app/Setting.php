@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Picture;
 
 class Setting extends Model
 {
@@ -16,24 +15,6 @@ class Setting extends Model
         'owner',
         'email',
         'phone',
-        'address',
-        'sidebar_logo_id',
-        'service_logo_id'
+        'address'
     ];
-
-    /**
-     * Get the logo of the Sidebar.
-     */
-    public function sidebar_logo()
-    {
-        return $this->belongsTo('App\Picture', 'sidebar_logo_id');
-    }
-
-    /**
-     * Get the logo of the Estimate PDF.
-     */
-    public function service_logo()
-    {
-        return $this->belongsTo('App\Picture', 'service_logo_id');
-    }
 }

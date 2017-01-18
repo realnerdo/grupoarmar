@@ -1,17 +1,17 @@
 @extends('layout.base')
 
-@section('title', 'Almacenes')
-@section('sectionTitle', 'Almacenes')
+@section('title', 'Proveedores')
+@section('sectionTitle', 'Proveedores')
 @section('add')
     <div class="buttons pr">
-        <a href="{{ url('almacenes/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
-        <a href="{{ url('almacenes/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Agregar almacén</a>
+        <a href="{{ url('proveedores/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
+        <a href="{{ url('proveedores/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Agregar proveedor</a>
     </div>
     <!-- /.buttons -->
 @endsection
 
 @section('content')
-    @unless ($warehouses->isEmpty())
+    @unless ($suppliers->isEmpty())
         {{-- <div class="row">
             {{ Form::open(['url' => '/', 'class' => 'form']) }}
                 <div class="col-6">
@@ -36,12 +36,12 @@
     @endunless
     <div class="row">
         <div class="col-12">
-            @if ($warehouses->isEmpty())
+            @if ($suppliers->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay almacenes</h2>
+                    <h2 class="title">Aún no hay proveedores</h2>
                     <!-- /.title -->
-                    <a href="{{ url('almacenes/nuevo') }}" class="btn btn-blue">Agregar un almacén</a>
+                    <a href="{{ url('proveedores/nuevo') }}" class="btn btn-blue">Agregar un proveedor</a>
                 </div>
                 <!-- /.empty -->
             @else
@@ -49,27 +49,29 @@
                     <thead>
                         <tr>
                             <th>Título</th>
+                            <th>Teléfono</th>
                             <th>Domicilio</th>
-                            <th>Equipos</th>
+                            <th>Mantenimientos</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($warehouses as $warehouse)
+                        @foreach ($suppliers as $supplier)
                             <tr>
-                                <td>{{ $warehouse->title }}</td>
-                                <td>{{ $warehouse->address }}</td>
-                                <td>{{ $warehouse->equipments()->count() }}</td>
+                                <td>{{ $supplier->title }}</td>
+                                <td>{{ $supplier->phone }}</td>
+                                <td>{{ $supplier->address }}</td>
+                                <td>{{ $supplier->maintenances()->count() }}</td>
                                 <td>
                                     <span href="#" class="dropdown">
                                         <i class="typcn typcn-social-flickr"></i>
                                         <ul class="list">
                                             <li class="item">
-                                                <a href="{{ url('almacenes/'.$warehouse->id.'/editar') }}" class="link"><i class="typcn typcn-edit"></i> Editar</a>
+                                                <a href="{{ url('proveedores/'.$supplier->id.'/editar') }}" class="link"><i class="typcn typcn-edit"></i> Editar</a>
                                             </li>
                                             <!-- /.item -->
                                             <li class="item">
-                                                {{ Form::open(['url' => url('almacenes', $warehouse->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
+                                                {{ Form::open(['url' => url('proveedores', $supplier->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
                                                     <button type="submit" class="link"><i class="typcn typcn-delete"></i> Eliminar</button>
                                                 {{ Form::close() }}
                                             </li>
@@ -91,7 +93,7 @@
     <div class="row">
         <div class="col-12">
             <div class="pagination">
-                {{ $warehouses->links() }}
+                {{ $suppliers->links() }}
             </div>
             <!-- /.pagination -->
         </div>

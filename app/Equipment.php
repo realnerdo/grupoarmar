@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Brand;
 use App\Group;
 use App\Warehouse;
-use App\Maintenance;
-use App\Picture;
 use App\Service;
+use App\EquipmentDetail;
 
 class Equipment extends Model
 {
@@ -28,17 +27,11 @@ class Equipment extends Model
         'folio',
         'title',
         'description',
-        'serial',
         'stock',
         'brand_id',
         'group_id',
         'warehouse_id'
     ];
-
-    public function pictures()
-    {
-        return $this->belongsToMany('App\Picture');
-    }
 
     public function brand()
     {
@@ -55,13 +48,13 @@ class Equipment extends Model
         return $this->belongsTo('App\Warehouse');
     }
 
-    public function maintenances()
-    {
-        return $this->hasMany('App\Maintenance');
-    }
-
     public function services()
     {
         return $this->hasMany('App\Service');
+    }
+
+    public function equipment_details()
+    {
+        return $this->hasMany('App\EquipmentDetail');
     }
 }

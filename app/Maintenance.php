@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Equipment;
+use App\EquipmentDetail;
+use App\Supplier;
 
 class Maintenance extends Model
 {
@@ -17,11 +18,17 @@ class Maintenance extends Model
         'description',
         'perform_date',
         'place',
-        'responsible'
+        'responsible',
+        'supplier_id'
     ];
 
-    public function equipment()
+    public function equipment_detail()
     {
-        return $this->belongsTo('App\Equipment');
+        return $this->belongsTo('App\EquipmentDetail');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo('App\Supplier');
     }
 }

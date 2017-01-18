@@ -65,8 +65,6 @@
                     <thead>
                         <tr>
                             <th>Folio</th>
-                            <th>Número de serie</th>
-                            <th>Foto</th>
                             <th>Descripción</th>
                             <th>Disponibles</th>
                             <th>Opciones</th>
@@ -76,15 +74,6 @@
                         @foreach ($equipments as $equipment)
                             <tr>
                                 <td>{{ $equipment->folio }}</td>
-                                <td>{{ $equipment->serial }}</td>
-                                <td>
-                                    <div class="equipment-photo">
-                                        @if ($equipment->pictures()->first())
-                                            {{ Html::image(asset('storage/'.$equipment->pictures()->first()->url), $equipment->title, ['class' => 'img']) }}
-                                        @endif
-                                    </div>
-                                    <!-- /.equipment-photo -->
-                                </td>
                                 <td>
                                     <h4 class="equipment-title">{{ $equipment->title }}</h4>
                                     <!-- /.equipment-title -->

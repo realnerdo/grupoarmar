@@ -12,6 +12,6 @@ class WarehousesTableSeeder extends Seeder
      */
     public function run()
     {
-        Warehouse::create(['title' => 'Un almacén', 'description' => 'Almacén Equis']);
+        Warehouse::create(['title' => 'Un almacén', 'address' => 'Calle 13']);
     }
 }

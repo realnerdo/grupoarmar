@@ -19,8 +19,8 @@
 </div>
 <!-- /.form-group -->
 <div class="form-group">
-    {{ Form::label('place', 'Lugar de mantenimiento', ['class' => 'label']) }}
-    {{ Form::input('text', 'place', null, ['class' => 'input']) }}
+    {{ Form::label('supplier_id', 'Proveedor', ['class' => 'label']) }}
+    {{ Form::select('supplier_id', $suppliers, null, ['class' => 'select2-add', 'data-placeholder' => 'Selecciona un proveedor', 'data-tags' => true]) }}
 </div>
 <!-- /.form-group -->
 <div class="form-group">

@@ -28,7 +28,8 @@ class MaintenanceRequest extends FormRequest
             'description' => 'required',
             'perform_date' => 'required',
             'place' => 'required',
-            'responsible' => 'required'
+            'responsible' => 'required',
+            'supplier_id' => 'required'
         ];
     }
 
@@ -44,7 +45,8 @@ class MaintenanceRequest extends FormRequest
             'description.required' => 'No has escrito una descripción',
             'perform_date.required' => 'No has seleccionado una fecha de realización',
             'place.required' => 'No has escrito un lugar de mantenimiento',
-            'responsible.required' => 'No has escrito un encargado de mantenimiento'
+            'responsible.required' => 'No has escrito un encargado de mantenimiento',
+            'supplier_id.required' => 'No has seleccionado un proveedor'
         ];
     }
 }

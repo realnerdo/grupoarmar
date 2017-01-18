@@ -18,9 +18,8 @@
             'servicios' => ['icon' => 'clipboard', 'name' => 'Servicios'],
             'clientes' => ['icon' => 'group', 'name' => 'Clientes'],
             'equipos' => ['icon' => 'th-list', 'name' => 'Equipos'],
-            'marcas' => ['icon' => 'tags', 'name' => 'Marcas'],
-            'grupos' => ['icon' => 'tags', 'name' => 'Grupos'],
             'almacenes' => ['icon' => 'dropbox', 'name' => 'Almacenes'],
+            'proveedores' => ['icon' => 'shopping-cart', 'name' => 'Proveedores'],
             'mantenimientos' => ['icon' => 'spanner', 'name' => 'Mantenimiento'],
             // 'reportes' => ['icon' => 'chart-pie', 'name' => 'Reportes']
         ];

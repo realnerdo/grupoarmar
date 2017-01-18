@@ -18,7 +18,6 @@ class CreateEquipmentsTable extends Migration
             $table->string('folio');
             $table->string('title');
             $table->text('description');
-            $table->string('serial');
             $table->integer('stock')->unsigned()->nullable();
             $table->integer('brand_id')->unsigned();
             $table->integer('group_id')->unsigned();
@@ -37,20 +36,6 @@ class CreateEquipmentsTable extends Migration
                     ->references('id')
                     ->on('warehouses');
         });
-
-        Schema::create('equipment_picture', function(Blueprint $table) {
-            $table->integer('equipment_id')->unsigned();
-            $table->foreign('equipment_id')
-                    ->references('id')
-                    ->on('equipments');
-
-            $table->integer('picture_id')->unsigned();
-            $table->foreign('picture_id')
-                    ->references('id')
-                    ->on('pictures');
-
-            $table->timestamps();
-        });
     }
 
     /**
@@ -66,12 +51,6 @@ class CreateEquipmentsTable extends Migration
             $table->dropForeign(['warehouse_id']);
         });
 
-        Schema::table('equipment_picture', function(Blueprint $table) {
-            $table->dropForeign(['equipment_id']);
-            $table->dropForeign(['picture_id']);
-        });
-
         Schema::drop('equipments');
-        Schema::drop('equipment_picture');
     }
 }

@@ -14,7 +14,7 @@ class Warehouse extends Model
      */
     protected $fillable = [
         'title',
-        'description'
+        'address'
     ];
 
     public function equipments()

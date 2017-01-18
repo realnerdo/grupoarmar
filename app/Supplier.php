@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Equipment;
+use App\Maintenance;
 
-class Picture extends Model
+class Supplier extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -13,12 +13,13 @@ class Picture extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'url'
+        'title',
+        'phone',
+        'address'
     ];
 
-    public function equipments()
+    public function maintenances()
     {
-        return $this->belongsToMany('App\Equipment');
+        return $this->hasMany('App\Maintenance');
     }
 }

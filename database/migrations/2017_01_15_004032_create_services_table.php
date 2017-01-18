@@ -19,7 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('event');
             $table->date('date_start');
             $table->date('date_end');
-            $table->enum('status', ['Pendiente', 'Terminada'])->default('Pendiente');
+            $table->enum('status', ['Pendiente por entregar', 'En transcurso', 'Vencido', 'Finalizado', 'Finalizado con detalles']);
             $table->integer('user_id')->unsigned();
             $table->integer('client_id')->unsigned();
             $table->timestamps();

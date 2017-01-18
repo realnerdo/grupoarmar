@@ -1,26 +1,4 @@
 <div class="form-group">
-    {{ Form::label('sidebar_logo', 'Logotipo', ['class' => 'label']) }}
-    @if (isset($setting->sidebar_logo->url))
-        <div class="picture">
-            {{ Html::image(asset('storage/'.$setting->sidebar_logo->url), $setting->title, ['class' => 'img']) }}
-        </div>
-        <!-- /.picture -->
-    @endif
-    {{ Form::file('sidebar_logo', ['class' => 'file']) }}
-</div>
-<!-- /.form-group -->
-<div class="form-group">
-    {{ Form::label('service_logo', 'Logotipo', ['class' => 'label']) }}
-    @if (isset($setting->service_logo->url))
-        <div class="picture">
-            {{ Html::image(asset('storage/'.$setting->service_logo->url), $setting->title, ['class' => 'img']) }}
-        </div>
-        <!-- /.picture -->
-    @endif
-    {{ Form::file('service_logo', ['class' => 'file']) }}
-</div>
-<!-- /.form-group -->
-<div class="form-group">
     {{ Form::label('title', 'Nombre del negocio', ['class' => 'label']) }}
     {{ Form::input('text', 'title', null, ['class' => 'input']) }}
 </div>

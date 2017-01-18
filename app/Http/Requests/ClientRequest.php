@@ -26,12 +26,7 @@ class ClientRequest extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'required|email',
-            'company' => 'required',
-            'trade_name' => 'required',
-            'rfc' => 'required',
-            'address' => 'required',
-            'zipcode' => 'required'
+            'email' => 'required|email'
         ];
     }
 
@@ -46,12 +41,7 @@ class ClientRequest extends FormRequest
             'name.required' => 'No has escrito un nombre',
             'phone.required' => 'No has escrito un teléfono',
             'email.required' => 'No has escrito un correo electrónico',
-            'email.email' => 'No has escrito un correo electrónico válido',
-            'company.required' => 'No has escrito una empresa',
-            'trade_name.required' => 'No has escrito un nombre comercial',
-            'rfc.required' => 'No has escrito un R.F.C.',
-            'address.required' => 'No has escrito una dirección',
-            'zipcode.required' => 'No has escrito un código postal'
+            'email.email' => 'No has escrito un correo electrónico válido'
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EquipmentRequest extends FormRequest
+class SupplierRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class EquipmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'stock' => 'required|numeric',
-            'brand_id' => 'required'
+            'title' => 'required'
         ];
     }
 
@@ -39,10 +36,7 @@ class EquipmentRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'No has escrito un título',
-            'description.required' => 'No has escrito una descripción',
-            'stock.required' => 'No has escrito una cantidad',
-            'brand_id.required' => 'No has seleccionado una marca'
+            'title.required' => 'No has escrito un título'
         ];
     }
 }

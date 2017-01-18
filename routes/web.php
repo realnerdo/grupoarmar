@@ -41,6 +41,15 @@ Route::delete('almacenes/{warehouse}', 'WarehouseController@destroy');
 Route::get('almacenes/{warehouse}/editar', 'WarehouseController@edit');
 Route::get('almacenes/exportExcel', 'WarehouseController@exportExcel');
 
+// Proveedores
+Route::get('proveedores', 'SupplierController@index');
+Route::post('proveedores', 'SupplierController@store');
+Route::get('proveedores/nuevo', 'SupplierController@create');
+Route::patch('proveedores/{supplier}', 'SupplierController@update');
+Route::delete('proveedores/{supplier}', 'SupplierController@destroy');
+Route::get('proveedores/{supplier}/editar', 'SupplierController@edit');
+Route::get('proveedores/exportExcel', 'SupplierController@exportExcel');
+
 // Grupos
 Route::get('grupos', 'GroupController@index');
 Route::post('grupos', 'GroupController@store');

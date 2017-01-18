@@ -20,17 +20,7 @@ class CreateSettingsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('address');
-            $table->integer('sidebar_logo_id')->unsigned()->nullable();
-            $table->integer('service_logo_id')->unsigned()->nullable();
             $table->timestamps();
-
-            $table->foreign('sidebar_logo_id')
-                    ->references('id')
-                    ->on('pictures');
-
-            $table->foreign('service_logo_id')
-                    ->references('id')
-                    ->on('pictures');
         });
     }
 
@@ -41,11 +31,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('settings', function(Blueprint $table) {
-            $table->dropForeign(['sidebar_logo_id']);
-            $table->dropForeign(['service_logo_id']);
-        });
-
         Schema::drop('settings');
     }
 }
