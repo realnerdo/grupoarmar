@@ -5,7 +5,7 @@
 @section('add')
     <div class="buttons pr">
         <a href="{{ url('servicios/exportExcel') }}" class="btn btn-green add"><i class="typcn typcn-download"></i> Exportar a Excel</a>
-        <a href="{{ url('servicios/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Nueva servicio</a>
+        <a href="{{ url('servicios/nuevo') }}" class="btn btn-blue add"><i class="typcn typcn-plus"></i> Nuevo servicio</a>
     </div>
     <!-- /.buttons -->
 @endsection
@@ -73,22 +73,18 @@
                         @foreach ($services as $service)
                             @php
                                 $now = \Date::now();
-                                $start = \Date::createFromFormat('Y-m-d', $service->date_start);
-                                $end = \Date::createFromFormat('Y-m-d', $service->date_end);
                             @endphp
                             <tr>
                                 <td>{{ $service->event }}</td>
                                 <td>{{ $service->client->company }}</td>
                                 <td>{{ $service->client->name }}</td>
-                                <td>{{ ucfirst($start->diffForHumans()) }}</td>
-                                <td>{{ ucfirst($end->diffForHumans()) }}</td>
+                                <td>{{ $service->date_start->format('d-m-Y') }} ({{ ucfirst($service->date_start->diffForHumans()) }})</td>
+                                <td>{{ $service->date_end->format('d-m-Y') }} ({{ ucfirst($service->date_end->diffForHumans()) }})</td>
                                 <td>
-                                    @if ($service->status == 'Terminada')
-                                        <span class="badge badge-blue">Terminada</span>
-                                    @elseif($now->gt($end))
-                                        <span class="badge badge-red">Vencida</span>
-                                    @elseif($now->lt($end))
-                                        <span class="badge badge-green">Vigente</span>
+                                    @if($now->gt($service->date_end))
+                                        <span class="badge badge-red">Finalizada</span>
+                                    @elseif($now->lt($service->date_end))
+                                        <span class="badge badge-yellow">Pendiente por entregar</span>
                                     @endif
                                 </td>
                                 <td>

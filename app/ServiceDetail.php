@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Service;
-use App\Equipment;
+use App\EquipmentDetail;
 
 class ServiceDetail extends Model
 {
@@ -15,7 +15,10 @@ class ServiceDetail extends Model
      */
     protected $fillable = [
         'quantity',
-        'equipment_id'
+        'price',
+        'total',
+        'equipment_detail_id',
+        'service_id'
     ];
 
     public function service()
@@ -23,8 +26,8 @@ class ServiceDetail extends Model
         return $this->belongsTo('App\Service');
     }
 
-    public function Equipment()
+    public function equipment_detail()
     {
-        return $this->belongsTo('App\Equipment');
+        return $this->belongsTo('App\EquipmentDetail');
     }
 }

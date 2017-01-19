@@ -18,14 +18,13 @@ class Maintenance extends Model
         'description',
         'perform_date',
         'responsible',
-        'supplier_id',
-        'equipment_detail_folio'
+        'supplier_id'
     ];
 
-    // public function equipment_detail()
-    // {
-    //     return $this->belongsTo('App\EquipmentDetail');
-    // } // TODO: Change to folio
+    public function equipment_detail()
+    {
+        return $this->belongsTo('App\EquipmentDetail');
+    }
 
     public function supplier()
     {

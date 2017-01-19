@@ -1,6 +1,6 @@
 <div class="form-group">
-    {{ Form::label('equipment_detail_folio', 'Equipo', ['class' => 'label']) }}
-    {{ Form::select('equipment_detail_folio', $equipment_details, null, ['class' => 'select2', 'data-placeholder' => 'Selecciona un equipo']) }}
+    {{ Form::label('equipment_detail_id', 'Equipo', ['class' => 'label']) }}
+    {{ Form::select('equipment_detail_id', $equipment_details, null, ['class' => 'select2', 'data-placeholder' => 'Selecciona un equipo']) }}
 </div>
 <!-- /.form-group -->
 <div class="form-group">

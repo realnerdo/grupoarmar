@@ -80,7 +80,7 @@
     <div class="col-3">
         <div class="form-group">
             {{ Form::label('date_start', 'Fecha de inicio', ['class' => 'label']) }}
-            {{ Form::input('text', 'date_start', null, ['class' => 'input datepicker']) }}
+            {{ Form::input('text', 'date_start', null, ['class' => 'input datepicker', 'id' => 'date_start']) }}
         </div>
         <!-- /.form-group -->
     </div>
@@ -88,7 +88,7 @@
     <div class="col-3">
         <div class="form-group">
             {{ Form::label('date_end', 'Fecha de devolución', ['class' => 'label']) }}
-            {{ Form::input('text', 'date_end', null, ['class' => 'input datepicker']) }}
+            {{ Form::input('text', 'date_end', null, ['class' => 'input datepicker', 'id' => 'date_end']) }}
         </div>
         <!-- /.form-group -->
     </div>
@@ -111,10 +111,11 @@
         <table class="table services">
             <thead>
                 <tr>
-                    <th>Número de serie</th>
-                    <th>Foto</th>
+                    <th>Folio</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
+                    <th>P. Unit.</th>
+                    <th>Total</th>
                     <th>Opciones</th>
                 </tr>
             </thead>
@@ -125,13 +126,7 @@
                             $equipment = $service_detail->equipment;
                         @endphp
                         <tr>
-                            <td>{{ $equipment->serial }}</td>
-                            <td>
-                                <div class="equipment-photo">
-                                    {{ Html::image(url('storage/'.$equipment->pictures->first()->url), $equipment->title, ['class' => 'img']) }}
-                                </div>
-                                <!-- /.equipment-photo -->
-                            </td>
+                            <td>{{ $equipment->folio }}</td>
                             <td>
                                 <h4 class="equipment-title">{{ $equipment->title }}</h4>
                                 <!-- /.equipment-title -->
@@ -147,7 +142,7 @@
                                 <!-- /.equipment-description -->
                             </td>
                             <td>
-                                {{ Form::input('number', 'equipments['.$equipment->id.'][quantity]', $service_detail->quantity, ['class' => 'input qty', 'min' => '1', 'max' => ($equipment->stock > 0) ? $equipment->stock : '1']) }}
+                                {{ Form::input('number', 'equipments['.$equipment->id.'][quantity]', $service_detail->quantity, ['class' => 'input qty', 'min' => '1']) }}
                             </td>
                             <td>
                                 {{ Form::hidden('equipments['.$equipment->id.'][equipment_id]', $equipment->id) }}
@@ -160,6 +155,13 @@
                     @endforeach
                 @endunless
             </tbody>
+            <tfoot>
+                <tr class="total">
+                    <td colspan="4" class="tr"><b>Total</b></td>
+                    <td colspan="2"><span id="grand_total" class="price">${{ ($service->total) ? $service->total : '0.00' }}</span></td>
+                    {{ Form::hidden('total', ($service->total) ? $service->total : 0) }}
+                </tr>
+            </tfoot>
         </table>
         <!-- /.table -->
     </div>

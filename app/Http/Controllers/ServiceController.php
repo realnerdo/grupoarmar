@@ -10,6 +10,7 @@ use App\ServiceDetail;
 use Illuminate\Http\Request;
 use App\Http\Requests\ServiceRequest;
 use Excel;
+use Carbon\Carbon;
 
 class ServiceController extends Controller
 {
@@ -87,26 +88,119 @@ class ServiceController extends Controller
 
             $request->merge(['client_id' => $client->id]);
         }
+
+        $this_start = Carbon::createFromFormat('Y-m-d', $request->input('date_start'));
+        $this_end = Carbon::createFromFormat('Y-m-d', $request->input('date_end'));
+
+        $availables = 0;
+        $unavailables = 0;
+
         $service = Auth::user()->services()->create($request->all());
+
         foreach ($request->input('equipments') as $equipment) {
-            $service->service_details()->create([
-                'quantity' => $equipment['quantity'],
-                'equipment_id' => $equipment['equipment_id']
-            ]);
+
+            $current_equipment = Equipment::find($equipment['equipment_id']);
+
+            foreach ($current_equipment->equipment_details as $equipment_detail) {
+                $available = true;
+
+                $service_details = $equipment_detail->service_details()->get();
+                if($service_details->isEmpty()){
+                    $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$equipment_detail->id]['id'] = $equipment_detail->id;
+                    $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$equipment_detail->id]['quantity'] = $equipment['quantity'];
+                    $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$equipment_detail->id]['price'] = $equipment['price'];
+                    $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$equipment_detail->id]['total'] = $equipment['total'];
+                    $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$equipment_detail->id]['equipment_id'] = $equipment['equipment_id'];
+                } else {
+                    foreach ($service_details as $service_detail) {
+                        $pending = $service_detail->service()->pending()->first();
+                        if($pending){
+                            if(
+                                ($this_end < $pending->date_start) ||
+                                ($this_start > $pending->date_end)
+                            ){
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['id'] = $service_detail->equipment_detail->id;
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['quantity'] = $equipment['quantity'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['price'] = $equipment['price'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['total'] = $equipment['total'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['equipment_id'] = $equipment['equipment_id'];
+                                $available = true;
+                            } else{
+                                $available = false;
+                            }
+                        }
+
+                        $active = $service_detail->service()->active()->first();
+                        if($active){
+                            if(
+                                ($this_end < $pending->date_start) ||
+                                ($this_start > $pending->date_end)
+                            ){
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['id'] = $service_detail->equipment_detail->id;
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['quantity'] = $equipment['quantity'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['price'] = $equipment['price'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['total'] = $equipment['total'];
+                                $equipment_details_availables[$current_equipment->id]['equipment_detail_ids'][$service_detail->equipment_detail->id]['equipment_id'] = $equipment['equipment_id'];
+                                $available = true;
+                            } else{
+                                $available = false;
+                            }
+                        }
+                    }
+                }
+
+                if($available){
+                    $availables++;
+                }else{
+                    $unavailables++;
+                }
+            }
+
+            $equipment_details_availables[$current_equipment->id]['availables'] = $availables;
+
         }
+
+        foreach ($request->input('equipments') as $equipment) {
+            if($equipment['quantity'] <= $equipment_details_availables[$equipment['equipment_id']]['availables']){
+                $i = 1;
+                foreach ($equipment_details_availables[$equipment['equipment_id']]['equipment_detail_ids'] as $equipment_detail_id) {
+                    $service->service_details()->create([
+                        'quantity' => $equipment_detail_id['quantity'],
+                        'price' => $equipment_detail_id['price'],
+                        'total' => $equipment_detail_id['total'],
+                        'equipment_detail_id' => $equipment_detail_id['id']
+                    ]);
+                    if($i == $equipment['quantity']){
+                        break;
+                    }
+                    $i++;
+                }
+            }elseif($equipment['quantity'] > $equipment_details_availables[$equipment['equipment_id']]['availables']){
+                if($equipment_details_availables[$equipment['equipment_id']]['availables'] > 0){
+                    foreach ($equipment_details_availables[$equipment['equipment_id']]['equipment_detail_ids'] as $equipment_detail_id) {
+                        $service->service_details()->create([
+                            'quantity' => $equipment_detail_id['quantity'],
+                            'price' => $equipment_detail_id['price'],
+                            'total' => $equipment_detail_id['total'],
+                            'equipment_detail_id' => $equipment_detail_id['id']
+                        ]);
+                    }
+                }
+
+                $extra = $equipment['quantity'] - $equipment_details_availables[$equipment['equipment_id']]['availables'];
+                for ($i=0; $i < $extra; $i++) {
+                    $service->service_details()->create([
+                        'quantity' => $equipment['quantity'],
+                        'price' => $equipment['price'],
+                        'total' => $equipment['total'],
+                        'equipment_detail_id' => null
+                    ]);
+                }
+            }
+        }
+
         session()->flash('flash_message', 'Se ha creado un servicio para el evento: '.$service->event);
         return redirect('servicios');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Service $service)
-    {
-        //
     }
 
     /**

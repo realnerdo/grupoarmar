@@ -15,10 +15,10 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function(Blueprint $table) {
             $table->increments('id');
-            $table->boolean('particular')->nullable();
             $table->string('event');
             $table->date('date_start');
             $table->date('date_end');
+            $table->float('total');
             $table->enum('status', ['Pendiente por entregar', 'En transcurso', 'Vencido', 'Finalizado', 'Finalizado con detalles']);
             $table->integer('user_id')->unsigned();
             $table->integer('client_id')->unsigned();

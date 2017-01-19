@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Brand;
 use App\Group;
 use App\Warehouse;
-use App\Service;
 use App\EquipmentDetail;
 
 class Equipment extends Model
@@ -46,11 +45,6 @@ class Equipment extends Model
     public function warehouse()
     {
         return $this->belongsTo('App\Warehouse');
-    }
-
-    public function services()
-    {
-        return $this->hasMany('App\Service');
     }
 
     public function equipment_details()

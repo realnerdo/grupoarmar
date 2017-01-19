@@ -16,13 +16,15 @@ class CreateServiceDetailsTable extends Migration
         Schema::create('service_details', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('quantity');
-            $table->integer('equipment_id')->unsigned();
+            $table->integer('price');
+            $table->integer('total');
+            $table->integer('equipment_detail_id')->unsigned()->nullable();
             $table->integer('service_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('equipment_id')
+            $table->foreign('equipment_detail_id')
                     ->references('id')
-                    ->on('equipments');
+                    ->on('equipment_details');
 
             $table->foreign('service_id')
                     ->references('id')
@@ -38,7 +40,7 @@ class CreateServiceDetailsTable extends Migration
     public function down()
     {
         Schema::table('service_details', function(Blueprint $table) {
-            $table->dropForeign(['equipment_id']);
+            $table->dropForeign(['equipment_detail_id']);
             $table->dropForeign(['service_id']);
         });
 

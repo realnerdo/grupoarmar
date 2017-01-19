@@ -11,6 +11,7 @@ use App\Picture;
 use Illuminate\Http\Request;
 use App\Http\Requests\EquipmentRequest;
 use Excel;
+use Carbon\Carbon;
 
 class EquipmentController extends Controller
 {
@@ -42,24 +43,71 @@ class EquipmentController extends Controller
      */
     public function getEquipments(Request $request)
     {
+        $this_start = Carbon::createFromFormat('Y-m-d', $request->input('date_start'));
+        $this_end = Carbon::createFromFormat('Y-m-d', $request->input('date_end'));
+
         $equipments = Equipment::latest()
             ->where('title', 'like', '%'.$request->input('q').'%')
-            ->orWhere('serial', $request->input('q'))
-            ->with('pictures', 'brand', 'group', 'warehouse')->get();
+            ->orWhere('folio', 'like', '%'.$request->input('q').'%')
+            ->orWhere('description', 'like', '%'.$request->input('q').'%')
+            ->with('brand', 'group', 'warehouse', 'equipment_details')->get();
+
         $data = ['items' => [], 'total_count' => $equipments->count()];
+        $availables = 0;
+        $unavailables = 0;
+
         foreach ($equipments as $equipment) {
-            $picture = (isset($equipment->pictures[0])) ? url('storage/'.$equipment->pictures[0]->url) : null;
+            foreach ($equipment->equipment_details as $equipment_detail) {
+                $available = true;
+
+                $service_details = $equipment_detail->service_details()->get();
+                if(!$service_details->isEmpty()){
+                    foreach ($service_details as $service_detail) {
+                        $pending = $service_detail->service()->pending()->first();
+                        if($pending){
+                            if(
+                                ($this_end < $pending->date_start) ||
+                                ($this_start > $pending->date_end)
+                            ){
+                                $available = true;
+                            } else{
+                                $available = false;
+                            }
+                        }
+
+                        $active = $service_detail->service()->active()->first();
+                        if($active){
+                            if(
+                                ($this_end < $pending->date_start) ||
+                                ($this_start > $pending->date_end)
+                            ){
+                                $available = true;
+                            } else{
+                                $available = false;
+                            }
+                        }
+                    }
+                }
+
+                if($available){
+                    $availables++;
+                }else{
+                    $unavailables++;
+                }
+            }
+
             $push = [
                 'id' => $equipment->id,
                 'text' => $equipment->title,
+                'folio' => $equipment->folio,
                 'title' => $equipment->title,
                 'description' => $equipment->description,
-                'serial' => $equipment->serial,
                 'stock' => $equipment->stock,
                 'brand' => $equipment->brand->title,
                 'group' => $equipment->group->title,
                 'warehouse' => $equipment->warehouse->title,
-                'picture' => $picture
+                'availables' => $availables,
+                'unavailables' => $unavailables
             ];
             array_push($data['items'], $push);
         }
@@ -74,9 +122,8 @@ class EquipmentController extends Controller
      */
     public function getEquipmentById($id)
     {
-        $equipment = Equipment::with('pictures', 'brand', 'group', 'warehouse')
+        $equipment = Equipment::with('brand', 'group', 'warehouse')
             ->find($id);
-        $equipment->picture = (isset($equipment->pictures[0])) ? url('storage/'.$equipment->pictures[0]->url) : null;
         return $equipment;
     }
 
@@ -230,19 +277,20 @@ class EquipmentController extends Controller
         $folio_first = $group_folio.$brand_folio.$title_folio;
         $request->merge(['folio' => $folio_first]);
 
+        $current_stock = $equipment->stock;
+
         $equipment->update($request->all());
 
-        foreach ($equipment->equipment_details as $equipment_detail) {
-            $equipment_detail->delete();
-        }
-
-        for ($i=0; $i < $request->input('stock'); $i++) {
-            $latest_folio = EquipmentDetail::where('folio', 'like', $folio_first.'%')->orderBy('id', 'desc')->first();
-            $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : sprintf('%05d', (substr($latest_folio->folio, -5) + 1));
-            $folio = $folio_first.'-'.$latest;
-            $equipment->equipment_details()->create([
-                'folio' => $folio
-            ]);
+        if($request->input('stock') > $current_stock){
+            $new_ones = $request->input('stock') - $current_stock;
+            for ($i=0; $i < $new_ones; $i++) {
+                $latest_folio = EquipmentDetail::where('folio', 'like', $folio_first.'%')->orderBy('id', 'desc')->first();
+                $latest = (is_null($latest_folio)) ? sprintf('%05d', 1) : sprintf('%05d', (substr($latest_folio->folio, -5) + 1));
+                $folio = $folio_first.'-'.$latest;
+                $equipment->equipment_details()->create([
+                    'folio' => $folio
+                ]);
+            }
         }
 
         session()->flash('flash_message', 'Se ha actualizado el equipo: '.$equipment->title);

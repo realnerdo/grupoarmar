@@ -10,7 +10,7 @@
 <!-- /.form-group -->
 <div class="form-group">
     {{ Form::label('stock', 'Cantidad', ['class' => 'label']) }}
-    {{ Form::input('text', 'stock', null, ['class' => 'input']) }}
+    {{ Form::input('number', 'stock', null, ['min' => ($equipment->stock) ? $equipment->stock : 1, 'class' => 'input']) }}
 </div>
 <!-- /.form-group -->
 <div class="form-group">

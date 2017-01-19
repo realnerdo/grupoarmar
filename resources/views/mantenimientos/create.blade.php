@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('title', 'Mantenimiento de equipos')
-@section('sectionTitle', 'Agregar nueva mantenimiento')
+@section('sectionTitle', 'Agregar nuevo mantenimiento')
 
 @section('content')
     <ul class="errors">

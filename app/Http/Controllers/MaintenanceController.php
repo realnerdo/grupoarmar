@@ -57,7 +57,7 @@ class MaintenanceController extends Controller
      */
     public function create()
     {
-        $equipment_details = EquipmentDetail::pluck('folio', 'folio');
+        $equipment_details = EquipmentDetail::pluck('folio', 'id');
         $equipment_details = [''=>''] + $equipment_details->toArray();
         $suppliers = Supplier::pluck('title', 'id');
         $suppliers = [''=>''] + $suppliers->toArray();
@@ -96,7 +96,7 @@ class MaintenanceController extends Controller
      */
     public function edit(Maintenance $maintenance)
     {
-        $equipment_details = Equipment::pluck('folio', 'folio');
+        $equipment_details = Equipment::pluck('folio', 'id');
         $equipment_details = [''=>''] + $equipment_details->toArray();
         $suppliers = Supplier::pluck('title', 'id');
         $suppliers = [''=>''] + $suppliers->toArray();

@@ -1,0 +1,34 @@
+// Services
+
+.equipment-result
+    +clear
+    color: $dark
+    padding: 1rem 0
+    width: 100%
+    & > *
+        float: left
+        padding: 0 .5rem
+    .equipment-meta
+        width: 20%
+        .equipment-title
+            +font-size(18px)
+            font-weight: 600
+            margin-bottom: .5rem
+        .equipment-folio,
+        .equipment-brand,
+        .equipment-group,
+        .equipment-warehouse
+            +font-size(14px)
+            font-weight: normal
+            i
+                font-weight: 600
+    .equipment-description
+        +font-size(16px)
+        width: 50%
+    .equipment-stock
+        +font-size(18px)
+        text-align: center
+        width: 30%
+.select2-results__option--highlighted
+    .equipment-result
+        color: $white

@@ -559,9 +559,9 @@ img {
   text-decoration: underline;
 }
 
-.table tbody tr td .input.qty, .table tbody tr td .input.discount,
+.table tbody tr td .input.qty, .table tbody tr td .input.custom-price,
 .table tfoot tr td .input.qty,
-.table tfoot tr td .input.discount {
+.table tfoot tr td .input.custom-price {
   font-size: 16px;
   font-size: 1.1428571429rem;
   background: #fff;
@@ -570,7 +570,16 @@ img {
   color: #2c3e50;
   font-family: "Titillium Web", sans-serif;
   padding: .5rem;
+}
+
+.table tbody tr td .input.qty,
+.table tfoot tr td .input.qty {
   width: 5rem;
+}
+
+.table tbody tr td .input.custom-price,
+.table tfoot tr td .input.custom-price {
+  width: 7.1428571429rem;
 }
 
 .table tbody tr td .delete-row,
@@ -902,83 +911,62 @@ img {
   padding: 1rem;
 }
 
-.product-result {
+.equipment-result {
   clear: both;
   content: '';
   display: table;
   color: #2c3e50;
   padding: 1rem 0;
+  width: 100%;
 }
 
-.product-result > * {
+.equipment-result > * {
   float: left;
   padding: 0 .5rem;
 }
 
-.product-result .product-photo {
-  border-radius: 0.2142857143rem;
-  box-shadow: 0 2px 3px 2px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 0;
-  width: 10%;
+.equipment-result .equipment-meta {
+  width: 20%;
 }
 
-.product-result .product-photo .img {
-  width: 100%;
-}
-
-.product-result .product-meta {
-  width: 15%;
-}
-
-.product-result .product-meta .product-title {
+.equipment-result .equipment-meta .equipment-title {
   font-size: 18px;
   font-size: 1.2857142857rem;
   font-weight: 600;
   margin-bottom: .5rem;
 }
 
-.product-result .product-meta .product-code,
-.product-result .product-meta .product-brand,
-.product-result .product-meta .product-category {
+.equipment-result .equipment-meta .equipment-folio,
+.equipment-result .equipment-meta .equipment-brand,
+.equipment-result .equipment-meta .equipment-group,
+.equipment-result .equipment-meta .equipment-warehouse {
   font-size: 14px;
   font-size: 1rem;
   font-weight: normal;
 }
 
-.product-result .product-meta .product-code i,
-.product-result .product-meta .product-brand i,
-.product-result .product-meta .product-category i {
+.equipment-result .equipment-meta .equipment-folio i,
+.equipment-result .equipment-meta .equipment-brand i,
+.equipment-result .equipment-meta .equipment-group i,
+.equipment-result .equipment-meta .equipment-warehouse i {
   font-weight: 600;
 }
 
-.product-result .product-description {
+.equipment-result .equipment-description {
   font-size: 16px;
   font-size: 1.1428571429rem;
-  width: 45%;
+  width: 50%;
 }
 
-.product-result .product-stock {
+.equipment-result .equipment-stock {
   font-size: 18px;
   font-size: 1.2857142857rem;
   text-align: center;
-  width: 20%;
+  width: 30%;
 }
 
-.product-result .product-price {
-  font-size: 22px;
-  font-size: 1.5714285714rem;
-  text-align: center;
-  width: 10%;
-}
-
-.product-result .product-price .product-regular-price.with-sale {
-  text-decoration: line-through;
-}
-
-.product-result .product-price .product-regular-price,
-.product-result .product-price .product-sale-price {
-  font-weight: 400;
+.select2-results__option--highlighted .equipment-result {
+  color: #fff;
 }
 
 .counter {

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Equipment;
 use App\Maintenance;
+use App\ServiceDetail;
 
 class EquipmentDetail extends Model
 {
@@ -20,6 +21,11 @@ class EquipmentDetail extends Model
     public function equipment()
     {
         return $this->belongsTo('App\Equipment');
+    }
+
+    public function service_details()
+    {
+        return $this->hasMany('App\ServiceDetail');
     }
 
     // public function maintenances()

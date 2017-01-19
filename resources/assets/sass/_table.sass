@@ -39,7 +39,7 @@
                         text-decoration: underline
                 .input
                     &.qty,
-                    &.discount
+                    &.custom-price
                         +font-size(16px)
                         background: $white
                         border: 1px solid $gray
@@ -47,7 +47,10 @@
                         color: $dark
                         font-family: $sans
                         padding: .5rem
+                    &.qty
                         width: rem(70px)
+                    &.custom-price
+                        width: rem(100px)
                 .delete-row
                     background: none
                     border: 0

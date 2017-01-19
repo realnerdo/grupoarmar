@@ -19,9 +19,13 @@ class CreateMaintenancesTable extends Migration
             $table->text('description');
             $table->date('perform_date');
             $table->string('responsible');
-            $table->string('equipment_detail_folio');
+            $table->integer('equipment_detail_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('equipment_detail_id')
+                    ->references('id')
+                    ->on('equipment_details');
 
             $table->foreign('supplier_id')
                     ->references('id')
@@ -37,6 +41,7 @@ class CreateMaintenancesTable extends Migration
     public function down()
     {
         Schema::table('maintenances', function(Blueprint $table) {
+            $table->dropForeign(['equipment_detail_id']);
             $table->dropForeign(['supplier_id']);
         });
 
