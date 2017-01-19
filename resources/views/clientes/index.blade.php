@@ -60,7 +60,7 @@
                             <th>Correo electrónico</th>
                             <th>Teléfono</th>
                             <th>Fecha de registro</th>
-                            <th>Cotizaciones</th>
+                            <th>Servicios</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>

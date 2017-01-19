@@ -73,17 +73,19 @@
                         @foreach ($services as $service)
                             @php
                                 $now = \Date::now();
+                                $start = \Date::createFromFormat('Y-m-d', $service->date_start);
+                                $end = \Date::createFromFormat('Y-m-d', $service->date_end);
                             @endphp
                             <tr>
                                 <td>{{ $service->event }}</td>
                                 <td>{{ $service->client->company }}</td>
                                 <td>{{ $service->client->name }}</td>
-                                <td>{{ $service->date_start->format('d-m-Y') }} ({{ ucfirst($service->date_start->diffForHumans()) }})</td>
-                                <td>{{ $service->date_end->format('d-m-Y') }} ({{ ucfirst($service->date_end->diffForHumans()) }})</td>
+                                <td>{{ $start->format('d-m-Y') }} ({{ ucfirst($start->diffForHumans()) }})</td>
+                                <td>{{ $end->format('d-m-Y') }} ({{ ucfirst($end->diffForHumans()) }})</td>
                                 <td>
-                                    @if($now->gt($service->date_end))
+                                    @if($now->gt($end))
                                         <span class="badge badge-red">Finalizada</span>
-                                    @elseif($now->lt($service->date_end))
+                                    @elseif($now->lt($end))
                                         <span class="badge badge-yellow">Pendiente por entregar</span>
                                     @endif
                                 </td>

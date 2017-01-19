@@ -121,7 +121,12 @@
             </thead>
             <tbody>
                 @unless ($service->service_details->isEmpty())
-                    @foreach ($service->service_details as $service_detail)
+                    @php
+                        $service_details = $service->service_details()
+                            ->selectRaw('quantity, price, total, equipment_id')
+                            ->groupBy(['quantity', 'price', 'total', 'equipment_id'])->get();
+                    @endphp
+                    @foreach ($service_details as $service_detail)
                         @php
                             $equipment = $service_detail->equipment;
                         @endphp
@@ -143,6 +148,13 @@
                             </td>
                             <td>
                                 {{ Form::input('number', 'equipments['.$equipment->id.'][quantity]', $service_detail->quantity, ['class' => 'input qty', 'min' => '1']) }}
+                            </td>
+                            <td>
+                                {{ Form::input('number', 'equipments['.$equipment->id.'][price]', $service_detail->price, ['class' => 'input custom-price', 'min' => 1, 'step' => '0.01']) }}
+                            </td>
+                            <td>
+                                {{ Form::hidden('equipments['.$equipment->id.'][total]', $service_detail->total) }}
+                                <span class="equipment-price-total price">${{ $service_detail->total }}</span>
                             </td>
                             <td>
                                 {{ Form::hidden('equipments['.$equipment->id.'][equipment_id]', $equipment->id) }}

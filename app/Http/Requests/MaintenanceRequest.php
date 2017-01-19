@@ -24,7 +24,7 @@ class MaintenanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'equipment_detail_folio' => 'required',
+            'equipment_detail_id' => 'required',
             'reason' => 'required',
             'description' => 'required',
             'perform_date' => 'required',
@@ -41,7 +41,7 @@ class MaintenanceRequest extends FormRequest
     public function messages()
     {
         return [
-            'equipment_detail_folio.required' => 'No has seleccionado un equipo',
+            'equipment_detail_id.required' => 'No has seleccionado un equipo',
             'reason.required' => 'No has escrito un motivo o causa',
             'description.required' => 'No has escrito una descripción',
             'perform_date.required' => 'No has seleccionado una fecha de realización',

@@ -43,8 +43,8 @@ class EquipmentController extends Controller
      */
     public function getEquipments(Request $request)
     {
-        $this_start = Carbon::createFromFormat('Y-m-d', $request->input('date_start'));
-        $this_end = Carbon::createFromFormat('Y-m-d', $request->input('date_end'));
+        $this_start = Carbon::createFromFormat('!Y-m-d', $request->input('date_start'));
+        $this_end = Carbon::createFromFormat('!Y-m-d', $request->input('date_end'));
 
         $equipments = Equipment::latest()
             ->where('title', 'like', '%'.$request->input('q').'%')
@@ -66,8 +66,8 @@ class EquipmentController extends Controller
                         $pending = $service_detail->service()->pending()->first();
                         if($pending){
                             if(
-                                ($this_end < $pending->date_start) ||
-                                ($this_start > $pending->date_end)
+                                ($this_end < Carbon::createFromFormat('!Y-m-d', $pending->date_start)) ||
+                                ($this_start > Carbon::createFromFormat('!Y-m-d', $pending->date_end))
                             ){
                                 $available = true;
                             } else{
@@ -78,8 +78,8 @@ class EquipmentController extends Controller
                         $active = $service_detail->service()->active()->first();
                         if($active){
                             if(
-                                ($this_end < $pending->date_start) ||
-                                ($this_start > $pending->date_end)
+                                ($this_end < Carbon::createFromFormat('!Y-m-d', $active->date_start)) ||
+                                ($this_start > Carbon::createFromFormat('!Y-m-d', $active->date_end))
                             ){
                                 $available = true;
                             } else{

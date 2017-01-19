@@ -16,6 +16,7 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
+        'folio',
         'event',
         'date_start',
         'date_end',
@@ -66,9 +67,10 @@ class Service extends Model
      *
      * @param string $date
      */
-    public function setDateStartAttribute($date)
+    public function getDateStartAttribute($date)
     {
-        $this->attributes['date_start'] = Date::createFromFormat('Y-m-d', $date, 'America/Merida')->format('Y-m-d');
+        if($date)
+            return $this->attributes['date_start'] = Date::createFromFormat('Y-m-d', $date, 'America/Merida')->format('Y-m-d');
     }
 
     /**
@@ -76,9 +78,10 @@ class Service extends Model
      *
      * @param string $date
      */
-    public function setDateEndAttribute($date)
+    public function getDateEndAttribute($date)
     {
-        $this->attributes['date_end'] = Date::createFromFormat('Y-m-d', $date, 'America/Merida')->format('Y-m-d');
+        if($date)
+            return $this->attributes['date_end'] = Date::createFromFormat('Y-m-d', $date, 'America/Merida')->format('Y-m-d');
     }
 
     public function user()

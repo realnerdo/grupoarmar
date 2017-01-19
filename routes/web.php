@@ -98,6 +98,7 @@ Route::patch('servicios/{service}', 'ServiceController@update');
 Route::delete('servicios/{service}', 'ServiceController@destroy');
 Route::get('servicios/{service}/editar', 'ServiceController@edit');
 Route::get('servicios/exportExcel', 'ServiceController@exportExcel');
+Route::get('servicios/{service}/pdf', 'ServiceController@pdf');
 
 // Mantenimientos
 Route::get('mantenimientos', 'MaintenanceController@index');

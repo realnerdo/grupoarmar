@@ -15,6 +15,7 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('folio');
             $table->string('event');
             $table->date('date_start');
             $table->date('date_end');

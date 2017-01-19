@@ -28,8 +28,8 @@ class EquipmentDetail extends Model
         return $this->hasMany('App\ServiceDetail');
     }
 
-    // public function maintenances()
-    // {
-    //     return $this->hasMany('App\Maintenance');
-    // }
+    public function maintenances()
+    {
+        return $this->hasMany('App\Maintenance');
+    }
 }

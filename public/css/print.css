@@ -33,25 +33,70 @@ body {
   background: #fff;
 }
 
-.estimate-print {
+.service-print {
   padding: 2rem;
 }
 
-.estimate-print .header .logo {
-  background: #000;
+.service-print .header {
+  clear: both;
+  content: '';
+  display: table;
+  border-bottom: 1px solid #000;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.service-print .header .logo {
+  float: left;
+  padding: 1rem;
+  text-align: left;
+  width: 60%;
+}
+
+.service-print .header .logo .img {
+  width: 5rem;
+}
+
+.service-print .header .logo .title {
+  font-size: 20px;
+  font-size: 1.4285714286rem;
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.service-print .header .folio {
+  float: left;
+  padding: 1rem;
+  text-align: right;
+  width: 40%;
+}
+
+.service-print .header .folio .number {
+  font-size: 16px;
+  font-size: 1.1428571429rem;
+  border: 1px solid #000;
+  border-radius: 0.3571428571rem;
+  display: inline-block;
   padding: 1rem;
   text-align: center;
 }
 
-.estimate-print .header .logo .img {
-  width: 10.7142857143rem;
+.service-print .header .folio .number span {
+  display: block;
 }
 
-.estimate-print .header .info {
+.service-print .header .folio .number span.title {
+  font-weight: 600;
+}
+
+.service-print .header .info {
+  border-top: 1px solid #000;
+  float: left;
   padding: .5rem 0;
+  width: 100%;
 }
 
-.estimate-print .header .info .data {
+.service-print .header .info .data {
   font-size: 14px;
   font-size: 1rem;
   display: inline-block;
@@ -60,15 +105,15 @@ body {
   width: 49%;
 }
 
-.estimate-print .estimate-table {
+.service-print .service-table {
   border-collapse: collapse;
   margin-bottom: .5rem;
   width: 100%;
 }
 
-.estimate-print .estimate-table thead tr th {
-  background: #000;
-  color: #fff;
+.service-print .service-table thead tr th {
+  background: #ccc;
+  color: #000;
   font-size: 14px;
   font-size: 1rem;
   font-weight: 400;
@@ -77,140 +122,71 @@ body {
   text-transform: uppercase;
 }
 
-.estimate-print .estimate-table tbody tr:nth-child(odd),
-.estimate-print .estimate-table tfoot tr:nth-child(odd) {
+.service-print .service-table tbody tr:nth-child(odd),
+.service-print .service-table tfoot tr:nth-child(odd) {
   background: #f8f8f8;
 }
 
-.estimate-print .estimate-table tbody tr td,
-.estimate-print .estimate-table tfoot tr td {
+.service-print .service-table tbody tr td,
+.service-print .service-table tfoot tr td {
   font-size: 14px;
   font-size: 1rem;
   padding: .5rem;
 }
 
-.estimate-print .estimate-table tbody tr td .product-title,
-.estimate-print .estimate-table tfoot tr td .product-title {
+.service-print .service-table tbody tr td .equipment-title,
+.service-print .service-table tfoot tr td .equipment-title {
   font-size: 14px;
   font-size: 1rem;
   font-weight: 600;
 }
 
-.estimate-print .estimate-table tbody tr td .product-category,
-.estimate-print .estimate-table tbody tr td .product-brand,
-.estimate-print .estimate-table tfoot tr td .product-category,
-.estimate-print .estimate-table tfoot tr td .product-brand {
+.service-print .service-table tbody tr td .equipment-brand,
+.service-print .service-table tbody tr td .equipment-group,
+.service-print .service-table tbody tr td .equipment-warehouse,
+.service-print .service-table tfoot tr td .equipment-brand,
+.service-print .service-table tfoot tr td .equipment-group,
+.service-print .service-table tfoot tr td .equipment-warehouse {
   font-size: 12px;
   font-size: 0.8571428571rem;
 }
 
-.estimate-print .estimate-table tbody tr td .product-description,
-.estimate-print .estimate-table tfoot tr td .product-description {
+.service-print .service-table tbody tr td .equipment-description,
+.service-print .service-table tfoot tr td .equipment-description {
   font-size: 13px;
   font-size: 0.9285714286rem;
 }
 
-.estimate-print .estimate-table tbody tr td .product-photo,
-.estimate-print .estimate-table tfoot tr td .product-photo {
-  height: 4.2857142857rem;
-  overflow: hidden;
-  position: relative;
-  width: 4.2857142857rem;
-}
-
-.estimate-print .estimate-table tbody tr td .product-photo .img,
-.estimate-print .estimate-table tfoot tr td .product-photo .img {
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  width: 100%;
-}
-
-.estimate-print .estimate-table tbody tr td .badge,
-.estimate-print .estimate-table tfoot tr td .badge {
-  font-size: 16px;
-  font-size: 1.1428571429rem;
-  border-radius: 0.2142857143rem;
-  color: #fff;
-  display: inline-block;
-  padding: .3rem .5rem;
-  text-align: center;
-}
-
-.estimate-print .estimate-table tbody tr td .badge.badge-green,
-.estimate-print .estimate-table tfoot tr td .badge.badge-green {
-  background: #2ecc71;
-}
-
-.estimate-print .estimate-table tbody tr td .price,
-.estimate-print .estimate-table tfoot tr td .price {
+.service-print .service-table tbody tr td .price,
+.service-print .service-table tfoot tr td .price {
   font-size: 14px;
   font-size: 1rem;
-  color: #34495e;
   font-weight: 400;
 }
 
-.estimate-print .estimate-table tbody tr td .price.with-sale,
-.estimate-print .estimate-table tfoot tr td .price.with-sale {
+.service-print .service-table tbody tr td .price.with-sale,
+.service-print .service-table tfoot tr td .price.with-sale {
   text-decoration: line-through;
 }
 
-.estimate-print .estimate-table tbody tr td .qty,
-.estimate-print .estimate-table tfoot tr td .qty {
+.service-print .service-table tbody tr td .qty,
+.service-print .service-table tfoot tr td .qty {
   font-size: 16px;
   font-size: 1.1428571429rem;
 }
 
-.estimate-print .notes,
-.estimate-print .observations {
-  margin-bottom: .5rem;
-}
-
-.estimate-print .notes .left,
-.estimate-print .observations .left {
-  display: inline-block;
-  width: 80%;
-}
-
-.estimate-print .notes .right,
-.estimate-print .observations .right {
-  display: inline-block;
-  width: 19%;
-}
-
-.estimate-print .notes .title,
-.estimate-print .observations .title {
-  font-size: 14px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.estimate-print .notes .content,
-.estimate-print .observations .content {
-  font-size: 12px;
-  font-size: 0.8571428571rem;
-  line-height: 1.5;
-}
-
-.estimate-print .signature {
-  font-size: 13px;
-  font-size: 0.9285714286rem;
-  text-align: center;
-}
-
-.estimate-print .footer {
+.service-print .footer {
   font-size: 12px;
   font-size: 0.8571428571rem;
   margin-top: 1rem;
   text-align: center;
 }
 
-.estimate-print .footer .address {
+.service-print .footer .address {
   width: 100%;
 }
 
-.estimate-print .footer .contact span {
+.service-print .footer .contact span {
   display: inline-block;
   padding: 0 2rem;
 }

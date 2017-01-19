@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Service;
+use App\Equipment;
 use App\EquipmentDetail;
 
 class ServiceDetail extends Model
@@ -18,6 +19,7 @@ class ServiceDetail extends Model
         'price',
         'total',
         'equipment_detail_id',
+        'equipment_id',
         'service_id'
     ];
 
@@ -29,5 +31,10 @@ class ServiceDetail extends Model
     public function equipment_detail()
     {
         return $this->belongsTo('App\EquipmentDetail');
+    }
+
+    public function equipment()
+    {
+        return $this->belongsTo('App\Equipment');
     }
 }

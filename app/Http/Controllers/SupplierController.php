@@ -104,6 +104,6 @@ class SupplierController extends Controller
     {
         $supplier->delete();
         session()->flash('flash_message', 'Se ha eliminado el proveedor');
-        return view('proveedores');
+        return redirect('proveedores');
     }
 }

@@ -10,147 +10,100 @@
     </head>
     <body>
 
-        <section class="estimate-print">
+        <section class="service-print">
             <header class="header">
                 <div class="logo">
-                    @if (isset($settings->sidebar_logo->url))
-                        <img src="{{ asset('storage/'.$settings->estimate_logo->url) }}" alt="{{ $settings->title }}" class="img">
-                    @else
-                        <img src="{{ asset('img/logo_cotizacion.png') }}" alt="{{ $settings->title }}" class="img">
-                    @endif
+                    <img src="{{ asset('img/logo.jpg') }}" class="img">
+                    <span class="title">{{ $settings->title }}</span>
                 </div>
                 <!-- /.logo -->
+                <div class="folio">
+                    <div class="number">
+                        <span class="title">Servicio</span>
+                        <span>No. {{ $service->folio }}</span>
+                    </div>
+                    <!-- /.number -->
+                </div>
+                <!-- /.folio -->
                 <div class="info">
-                    <span class="data"><b>Cotización Piezas en existencia</b></span>
+                    <span class="data"><b>Servicio</b></span>
                     <span class="data"><b>Fecha:</b> {{ ucfirst(\Date::today()->format('l j \\d\\e F Y')) }}</span>
-                    <span class="data"><b>Atención:</b> {{ $estimate->client->name }}</span>
-                    <span class="data"><b>Teléfono:</b> {{ $estimate->client->phone }}</span>
-                    <span class="data"><b>E-mail:</b> {{ $estimate->client->email }}</span>
-                    <span class="data"><b>Vendedor:</b> {{ $estimate->user->name }}</span>
+                    <span class="data"><b>Contacto:</b> {{ $service->client->name }}</span>
+                    <span class="data"><b>Teléfono:</b> {{ $service->client->phone }}</span>
+                    <span class="data"><b>Evento:</b> {{ $service->event }}</span>
+                    <span class="data"><b>Entrega/devolución:</b> {{ $service->date_start }} - {{ $service->date_end }}</span>
                 </div>
                 <!-- /.info -->
             </header>
             <!-- /.header -->
-            <table class="estimate-table">
+            <table class="service-table">
                 <thead>
                     <tr>
-                        <th>Foto</th>
+                        <th>Cant.</th>
+                        <th>Folio</th>
                         <th>Descripción</th>
                         <th>P. Unit.</th>
-                        <th>Cant.</th>
-                        <th>Desc.</th>
                         <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($estimate->estimate_details as $estimate_detail)
+                    @php
+                        $service_details = $service->service_details()
+                            ->selectRaw('quantity, price, total, equipment_id')
+                            ->groupBy(['quantity', 'price', 'total', 'equipment_id'])->get();
+                    @endphp
+                    @foreach ($service_details as $service_detail)
                         @php
-                            $product = $estimate_detail->product;
-                            $price = ($product->sale_price != '') ? $product->sale_price : $product->regular_price;
+                            $equipment = $service_detail->equipment;
                         @endphp
                         <tr>
                             <td>
-                                <div class="product-photo">
-                                    {{ Html::image(url('storage/'.$product->pictures->first()->url), $product->title, ['class' => 'img']) }}
+                                <span class="qty">{{ $service_detail->quantity }}</span>
+                            </td>
+                            <td>
+                                <span class="folio">{{ $equipment->folio }}</span>
+                            </td>
+                            <td>
+                                <h4 class="equipment-title">{{ $equipment->title }}</h4>
+                                <!-- /.equipment-title -->
+                                <h5 class="equipment-brand"><b>Marca:</b> <i>{{ $equipment->brand->title }}</i></h5>
+                                <!-- /.equipment-brand -->
+                                <h5 class="equipment-group"><b>Grupo:</b> <i>{{ $equipment->group->title }}</i></h5>
+                                <!-- /.equipment-group -->
+                                <h5 class="equipment-warehouse"><b>Almacén:</b> <i>{{ $equipment->warehouse->title }}</i></h5>
+                                <!-- /.equipment-warehouse -->
+                                <div class="equipment-description">
+                                    {{ $equipment->description }}
                                 </div>
-                                <!-- /.photo -->
+                                <!-- /.equipment-description -->
                             </td>
                             <td>
-                                <h4 class="product-title">{{ $product->title }}</h4>
-                                <!-- /.product-title -->
-                                <h5 class="product-brand"><b>Marca:</b> <i>{{ $product->brand->title }}</i></h5>
-                                <!-- /.product-brand -->
-                                <h5 class="product-category"><b>Categoría:</b> <i>{{ $product->category->title }}</i></h5>
-                                <!-- /.product-category -->
-                                <div class="product-description">
-                                    {{ $product->description }}
-                                </div>
-                                <!-- /.product-description -->
+                                <span class="price">${{ $service_detail->price }}</span>
                             </td>
                             <td>
-                                <h5 class="price {{ ($product->sale_price != '') ? 'with-sale' : '' }}">${{ $product->regular_price }}</h5>
-                                {!! ($product->sale_price != '') ? '<h5 class="price">$'.$product->sale_price.'</h5>' : '' !!}
-                            </td>
-                            <td><span class="qty">&times; {{ $estimate_detail->quantity }}</span></td>
-                            <td><span class="badge badge-green discount">{{ $estimate_detail->discount }}%</span></td>
-                            <td>
-                                <span class="product-price-total price" data-price="{{ $price }}">${{ $price }}</span>
+                                <span class="price">${{ $service_detail->total }}</span>
                             </td>
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr class="subtotal">
-                        <td colspan="5" class="tr"><b>Subtotal</b></td>
-                        <td colspan="2"><span class="price">${{ ($estimate->subtotal) ? $estimate->subtotal : '0.00' }}</span></td>
-                    </tr>
-                    <tr class="discount">
-                        <td colspan="5" class="tr"><b>Con descuento</b></td>
-                        <td colspan="2"><span class="price">${{ ($estimate->discount) ? $estimate->discount : '0.00' }}</span></td>
-                    </tr>
-                    <tr class="save">
-                        <td colspan="5" class="tr"><b>Usted ahorra</b></td>
-                        <td colspan="2"><span class="price">${{ ($estimate->save) ? $estimate->save : '0.00' }}</span></td>
-                    </tr>
-                    <tr class="tax">
-                        <td colspan="5" class="tr"><b>I.V.A.</b></td>
-                        <td colspan="2"><span class="price" data-tax="{{ $settings->tax }}">{{ $settings->tax }}%</span></td>
-                    </tr>
                     <tr class="total">
-                        <td colspan="5" class="tr"><b>Total</b></td>
-                        <td colspan="2"><span class="price">${{ ($estimate->total) ? $estimate->total : '0.00' }}</span></td>
+                        <td colspan="4" class="tr"><b>Total</b></td>
+                        <td colspan="1"><span id="grand_total" class="price">${{ $service->total }}</span></td>
                     </tr>
                 </tfoot>
             </table>
-            <!-- /.estimate-table -->
-            @if ($estimate->notes != '')
-                <div class="notes">
-                    <h3 class="title">Notas:</h3>
-                    <!-- /.title -->
-                    <div class="content">{{ $estimate->notes }}</div>
-                    <!-- /.content -->
-                </div>
-                <!-- /.notes -->
-            @endif
-            <div class="observations">
-                <div class="left">
-                    <h3 class="title">Observaciones:</h3>
-                    <!-- /.title -->
-                    <div class="content">
-                        <p>En PEDIDOS, el anticipo será del 70% del TOTAL y el saldo el 30% contra entrega de la mercancía.</p>
-                        <p>En APARTADOS, el anticipo será del 50% del TOTAL y el saldo contra entrega de la mercancia.</p>
-                        <p>El tiempo máximo de apartado será de 2 meses. En caso de haber cumplido el plazo ó la mercancia sea cancelada después de este período, tendrá una penalización del 5% sobre el total del apartado.</p>
-                        <p>Precios sujetos a cambios sin previo aviso. Toda vez efectuado el pago del anticipo, el precio del articulo no variará.</p>
-                        <p>Los precios son en MXN y NO INCLUYEN IVA.</p>
-                        <p>NO se aceptan cambios ni devoluciones.</p>
-                        <p>La válidez de esta cotización es por 5 días y dependerá de la disponibilidad de las piezas.</p>
-                    </div>
-                    <!-- /.content -->
-                </div>
-                <!-- /.left -->
-                <div class="right">
-                    <div class="signature">
-                        <p>Atte.</p>
-                        <p>{{ $settings->owner }}</p>
-                        <p>{{ $settings->title }}</p>
-                    </div>
-                    <!-- /.signature -->
-                </div>
-                <!-- /.right -->
-
-            </div>
-            <!-- /.observations -->
+            <!-- /.service-table -->
             <footer class="footer">
-                <div class="address">{{ $settings->address }}</div>
                 <div class="contact">
+                    <span class="address">{{ $settings->address }}</span>
                     <span class="phone">Tel. {{ $settings->phone }}</span>
                     <span class="email">{{ $settings->email }}</span>
-                    <span class="store">{{ $settings->store_url }}</span>
+                    <span class="title">{{ $settings->title }}</span>
                 </div>
                 <!-- /.contact -->
-                <!-- /.address -->
             </footer>
             <!-- /.footer -->
         </section>
-        <!-- /.estimate-print -->
+        <!-- /.service-print -->
     </body>
 </html>

@@ -19,6 +19,7 @@ class CreateServiceDetailsTable extends Migration
             $table->integer('price');
             $table->integer('total');
             $table->integer('equipment_detail_id')->unsigned()->nullable();
+            $table->integer('equipment_id')->unsigned();
             $table->integer('service_id')->unsigned();
             $table->timestamps();
 
@@ -26,9 +27,14 @@ class CreateServiceDetailsTable extends Migration
                     ->references('id')
                     ->on('equipment_details');
 
+            $table->foreign('equipment_id')
+                    ->references('id')
+                    ->on('equipments');
+
             $table->foreign('service_id')
                     ->references('id')
-                    ->on('services');
+                    ->on('services')
+                    ->onDelete('cascade');
         });
     }
 
@@ -41,6 +47,7 @@ class CreateServiceDetailsTable extends Migration
     {
         Schema::table('service_details', function(Blueprint $table) {
             $table->dropForeign(['equipment_detail_id']);
+            $table->dropForeign(['equipment_id']);
             $table->dropForeign(['service_id']);
         });
 
