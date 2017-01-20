@@ -7,7 +7,7 @@ use App\EquipmentDetail;
 use App\Brand;
 use App\Group;
 use App\Warehouse;
-use App\Picture;
+use App\Setting;
 use Illuminate\Http\Request;
 use App\Http\Requests\EquipmentRequest;
 use Excel;
@@ -34,6 +34,20 @@ class EquipmentController extends Controller
     {
         $equipments = Equipment::latest()->paginate(5);
         return view('equipos.index', compact('equipments'));
+    }
+
+    /**
+     * Show the pdf of the tags of the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tags()
+    {
+        $settings = Setting::latest()->first();
+        $equipment_details = EquipmentDetail::all();
+        $pdf = \PDF::loadView('equipos.tags', ['equipment_details' => $equipment_details]);
+        $filename = $settings->title.' - Etiquetas de equipos ['.Carbon::now().'].pdf';
+        return $pdf->stream($filename);
     }
 
     /**

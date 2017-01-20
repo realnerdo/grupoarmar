@@ -26,6 +26,11 @@ elixir((mix) => {
         './node_modules/normalize.css/normalize.css'
     ], 'public/css/print.css');
 
+    mix.sass([
+        'tags.sass',
+        './node_modules/normalize.css/normalize.css'
+    ], 'public/css/tags.css');
+
     mix.scripts([
         './node_modules/jquery/dist/jquery.min.js',
         './node_modules/select2/dist/js/select2.min.js',

@@ -78,6 +78,7 @@ Route::get('equipos/{equipment}/editar', 'EquipmentController@edit');
 Route::get('equipos/getEquipments', 'EquipmentController@getEquipments');
 Route::get('equipos/getEquipmentById/{id}', 'EquipmentController@getEquipmentById');
 Route::get('equipos/exportExcel', 'EquipmentController@exportExcel');
+Route::get('equipos/etiquetas', 'EquipmentController@tags');
 
 // Clientes
 Route::get('clientes', 'ClientController@index');

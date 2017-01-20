@@ -1,0 +1,21 @@
+// Print
+
+@import '_fonts'
+@import '_functions'
+@import '_mixins'
+@import '_colors'
+@import '_general'
+
+body
+    background: $white
+
+.tags
+    +clear
+    width: 100%
+    .tag
+        border: 1px solid $black
+        float: left
+        padding: 1rem
+        width: calc(100% / 3)
+        .equipment-title
+            +font-size(18px)
