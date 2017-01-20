@@ -58,8 +58,8 @@ body {
 }
 
 .service-print .header .logo .title {
-  font-size: 20px;
-  font-size: 1.4285714286rem;
+  font-size: 16px;
+  font-size: 1.1428571429rem;
   display: inline-block;
   margin-left: 1rem;
 }

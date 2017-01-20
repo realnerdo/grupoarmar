@@ -99,6 +99,9 @@ Route::delete('servicios/{service}', 'ServiceController@destroy');
 Route::get('servicios/{service}/editar', 'ServiceController@edit');
 Route::get('servicios/exportExcel', 'ServiceController@exportExcel');
 Route::get('servicios/{service}/pdf', 'ServiceController@pdf');
+Route::get('servicios/{service}/download', 'ServiceController@download');
+Route::get('servicios/{service}/pdf_full', 'ServiceController@pdf_full');
+Route::get('servicios/{service}/download_full', 'ServiceController@download_full');
 
 // Mantenimientos
 Route::get('mantenimientos', 'MaintenanceController@index');

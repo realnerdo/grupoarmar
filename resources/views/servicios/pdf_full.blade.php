@@ -40,13 +40,24 @@
                 <thead>
                     <tr>
                         <th>Cant.</th>
-                        <th>Folio</th>
+                        <th>Folios</th>
                         <th>Descripción</th>
                         <th>P. Unit.</th>
                         <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $i = sprintf('%05d', 1);
+                    @endphp
+                    @foreach ($service->service_details as $service_detail)
+                        @php
+                            $equipment_detail_id = (!is_null($service_detail->equipment_detail_id)) ? $service_detail->equipment_detail_id : sprintf('%05d', $i + 1);
+                            $equipment_detail_folio = (!is_null($service_detail->equipment_detail_id)) ? $service_detail->equipment_detail->folio : 'No hay';
+                            $folios[$service_detail->equipment_id][$equipment_detail_id] = $equipment_detail_folio;
+                            $i++;
+                        @endphp
+                    @endforeach
                     @php
                         $service_details = $service->service_details()
                             ->selectRaw('quantity, price, total, equipment_id')
@@ -61,7 +72,15 @@
                                 <span class="qty">{{ $service_detail->quantity }}</span>
                             </td>
                             <td>
-                                <span class="folio">{{ $equipment->folio }}</span>
+                                @php
+                                    $folios_str = '';
+                                    $i = 1;
+                                    foreach ($folios[$equipment->id] as $equipment_detail_id => $folio) {
+                                        $folios_str.= $i.'.-'.$folio. '<br>';
+                                        $i++;
+                                    }
+                                @endphp
+                                {!! $folios_str !!}
                             </td>
                             <td>
                                 <h4 class="equipment-title">{{ $equipment->title }}</h4>

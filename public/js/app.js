@@ -217,7 +217,7 @@ $(function(){
                     price = parseFloat($e.find('.custom-price').val()),
                     total = price*qty;
 
-                grand_total = total;
+                grand_total = grand_total + total;
             });
 
             var span_grand_total = $('#grand_total');
@@ -324,6 +324,7 @@ $(function(){
                     tr.append(td_options);
 
                     servicios_table.find('tbody').append(tr);
+                    set_total(tr);
                 });
             }
 
@@ -354,7 +355,7 @@ $(function(){
             return false;
         });
 
-        $body.on('change', '.qty, .custom-price', function(){
+        $body.on('keyup', '.qty, .custom-price', function(){
             var tr = $(this).closest('tr');
             set_total(tr);
         });

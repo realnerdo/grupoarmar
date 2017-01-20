@@ -111,7 +111,7 @@
         <table class="table services">
             <thead>
                 <tr>
-                    <th>Folio</th>
+                    <th>Folios</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>P. Unit.</th>
@@ -122,6 +122,17 @@
             <tbody>
                 @unless ($service->service_details->isEmpty())
                     @php
+                        $i = sprintf('%05d', 1);
+                    @endphp
+                    @foreach ($service->service_details as $service_detail)
+                        @php
+                            $equipment_detail_id = (!is_null($service_detail->equipment_detail_id)) ? $service_detail->equipment_detail_id : sprintf('%05d', $i + 1);
+                            $equipment_detail_folio = (!is_null($service_detail->equipment_detail_id)) ? $service_detail->equipment_detail->folio : 'No hay';
+                            $folios[$service_detail->equipment_id][$equipment_detail_id] = $equipment_detail_folio;
+                            $i++;
+                        @endphp
+                    @endforeach
+                    @php
                         $service_details = $service->service_details()
                             ->selectRaw('quantity, price, total, equipment_id')
                             ->groupBy(['quantity', 'price', 'total', 'equipment_id'])->get();
@@ -131,7 +142,17 @@
                             $equipment = $service_detail->equipment;
                         @endphp
                         <tr>
-                            <td>{{ $equipment->folio }}</td>
+                            <td>
+                                @php
+                                    $folios_str = '';
+                                    $i = 1;
+                                    foreach ($folios[$equipment->id] as $equipment_detail_id => $folio) {
+                                        $folios_str.= $i.'.-'.$folio. '<br>';
+                                        $i++;
+                                    }
+                                @endphp
+                                {!! $folios_str !!}
+                            </td>
                             <td>
                                 <h4 class="equipment-title">{{ $equipment->title }}</h4>
                                 <!-- /.equipment-title -->
@@ -153,7 +174,7 @@
                                 {{ Form::input('number', 'equipments['.$equipment->id.'][price]', $service_detail->price, ['class' => 'input custom-price', 'min' => 1, 'step' => '0.01']) }}
                             </td>
                             <td>
-                                {{ Form::hidden('equipments['.$equipment->id.'][total]', $service_detail->total) }}
+                                {{ Form::hidden('equipments['.$equipment->id.'][total]', $service_detail->total, ['class' => 'input-price-total']) }}
                                 <span class="equipment-price-total price">${{ $service_detail->total }}</span>
                             </td>
                             <td>

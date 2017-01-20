@@ -60,6 +60,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Folio</th>
                             <th>Evento</th>
                             <th>Cliente</th>
                             <th>Contacto</th>
@@ -77,6 +78,7 @@
                                 $end = \Date::createFromFormat('Y-m-d', $service->date_end);
                             @endphp
                             <tr>
+                                <td>{{ $service->folio }}</td>
                                 <td>{{ $service->event }}</td>
                                 <td>{{ $service->client->company }}</td>
                                 <td>{{ $service->client->name }}</td>
@@ -97,14 +99,22 @@
                                                 <a href="{{ url('servicios/'.$service->id.'/editar') }}" class="link"><i class="typcn typcn-edit"></i> Editar</a>
                                             </li>
                                             <!-- /.item -->
-                                            {{-- <li class="item">
+                                            <li class="item">
                                                 <a href="{{ url('servicios/'.$service->id.'/download') }}" class="link"><i class="typcn typcn-download"></i> Descargar</a>
                                             </li>
                                             <!-- /.item -->
                                             <li class="item">
                                                 <a href="{{ url('servicios/'.$service->id.'/pdf') }}" class="link" target="_blank"><i class="typcn typcn-printer"></i> Imprimir</a>
                                             </li>
-                                            <!-- /.item --> --}}
+                                            <!-- /.item -->
+                                            <li class="item">
+                                                <a href="{{ url('servicios/'.$service->id.'/download_full') }}" class="link"><i class="typcn typcn-download"></i> Descargar detallado</a>
+                                            </li>
+                                            <!-- /.item -->
+                                            <li class="item">
+                                                <a href="{{ url('servicios/'.$service->id.'/pdf_full') }}" class="link" target="_blank"><i class="typcn typcn-printer"></i> Imprimir detallado</a>
+                                            </li>
+                                            <!-- /.item -->
                                             <li class="item">
                                                 {{ Form::open(['url' => url('servicios', $service->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
                                                     <button type="submit" class="link"><i class="typcn typcn-delete"></i> Eliminar</button>

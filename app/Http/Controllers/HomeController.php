@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Service;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $pending_services = Service::latest()->pending()->take(5)->get();
+        return view('dashboard', compact('pending_services'));
     }
 }
