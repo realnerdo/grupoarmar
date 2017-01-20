@@ -24,10 +24,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(5);
-        return view('usuarios.index', compact('users'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $users = User::latest()->paginate(5);
+        }else{
+            $users = User::latest()
+                ->where('name', $request->input('name'))
+                ->orWhere('username', $request->input('username'))
+                ->orWhere('email', $request->input('email'))
+                ->paginate(5);
+        }
+        return view('usuarios.index', compact('users', 'request'));
     }
 
     /**

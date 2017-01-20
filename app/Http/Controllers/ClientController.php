@@ -24,10 +24,22 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::latest()->paginate(5);
-        return view('clientes.index', compact('clients'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $clients = Client::latest()->paginate(5);
+        }else{
+            $clients = Client::latest()
+                    ->where('name', $request->input('name'))
+                    ->orWhere('email', $request->input('email'))
+                    ->orWhere('phone', $request->input('phone'))
+                    ->paginate(5);
+        }
+        return view('clientes.index', compact('clients', 'request'));
     }
 
     /**

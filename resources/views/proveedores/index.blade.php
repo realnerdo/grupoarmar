@@ -11,35 +11,40 @@
 @endsection
 
 @section('content')
-    @unless ($suppliers->isEmpty())
-        {{-- <div class="row">
-            {{ Form::open(['url' => '/', 'class' => 'form']) }}
-                <div class="col-6">
-                    <div class="form-group">
-                        {{ Form::label('title', 'Título', ['class' => 'label']) }}
-                        {{ Form::input('text', 'title', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+    <div class="row">
+        {{ Form::open(['url' => url('proveedores'), 'class' => 'form search', 'method' => 'GET']) }}
+            <div class="col-6">
+                <div class="form-group">
+                    {{ Form::label('title', 'Título', ['class' => 'label']) }}
+                    {{ Form::input('text', 'title', ($request->has('title')) ? $request->input('title') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-6 -->
-                <div class="col-6">
-                    <div class="form-group">
-                        {{ Form::label('description', 'Descripción', ['class' => 'label']) }}
-                        {{ Form::input('text', 'description', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-6 -->
+            <div class="col-6">
+                <div class="form-group">
+                    {{ Form::label('phone', 'Teléfono', ['class' => 'label']) }}
+                    {{ Form::input('text', 'phone', ($request->has('phone')) ? $request->input('phone') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-6 -->
-            {{ Form::close() }}
-        </div>
-        <!-- /.row --> --}}
-    @endunless
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-6 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::submit('Buscar', ['class' => 'btn btn-green']) }}
+                </div>
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+        {{ Form::close() }}
+    </div>
+    <!-- /.row -->
     <div class="row">
         <div class="col-12">
             @if ($suppliers->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay proveedores</h2>
+                    <h2 class="title">No hay resultados</h2>
                     <!-- /.title -->
                     <a href="{{ url('proveedores/nuevo') }}" class="btn btn-blue">Agregar un proveedor</a>
                 </div>

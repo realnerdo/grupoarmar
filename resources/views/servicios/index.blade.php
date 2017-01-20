@@ -11,47 +11,52 @@
 @endsection
 
 @section('content')
-    @unless ($services->isEmpty())
-        {{-- <div class="row">
-            {{ Form::open(['url' => '/', 'class' => 'form']) }}
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('date', 'Fecha:', ['class' => 'label']) }}
-                        {{ Form::input('text', 'date', null, ['class' => 'input']) }}
-                    </div><!-- /.form-group -->
+    <div class="row">
+        {{ Form::open(['url' => url('servicios'), 'class' => 'form search', 'method' => 'GET']) }}
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('folio', 'Folio:', ['class' => 'label']) }}
+                    {{ Form::input('text', 'folio', ($request->has('folio')) ? $request->input('folio') : null, ['class' => 'input']) }}
+                </div><!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('event', 'Evento:', ['class' => 'label']) }}
+                    {{ Form::input('text', 'event', ($request->has('event')) ? $request->input('event') : null, ['class' => 'input']) }}
+                </div><!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('date_start', 'Fecha de entrega:', ['class' => 'label']) }}
+                    {{ Form::input('text', 'date', ($request->has('date_start')) ? $request->input('date_start') : null, ['class' => 'input datepicker']) }}
+                </div><!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('date_end', 'Fecha de término:', ['class' => 'label']) }}
+                    {{ Form::input('text', 'date', ($request->has('date_end')) ? $request->input('date_end') : null, ['class' => 'input datepicker']) }}
+                </div><!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::submit('Buscar', ['class' => 'btn btn-green']) }}
                 </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('seller', 'Vendedor:', ['class' => 'label']) }}
-                        {{ Form::select('seller', ['Vendedor', 'Vendedor', 'Vendedor'], null, ['class' => 'select2']) }}
-                    </div><!-- /.form-group -->
-                </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('status', 'Estado:', ['class' => 'label']) }}
-                        {{ Form::select('seller', ['Pendiente', 'Aceptada', 'Rechazada'], null, ['class' => 'select2']) }}
-                    </div><!-- /.form-group -->
-                </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('company', 'Empresa:', ['class' => 'label']) }}
-                        {{ Form::input('text', 'company', null, ['class' => 'input']) }}
-                    </div><!-- /.form-group -->
-                </div>
-                <!-- /.col-3 -->
-            {{ Form::close() }}
-        </div>
-        <!-- /.row --> --}}
-    @endunless
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+        {{ Form::close() }}
+    </div>
+    <!-- /.row -->
     <div class="row">
         <div class="col-12">
             @if ($services->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay servicios</h2>
+                    <h2 class="title">No se encontraron resultados</h2>
                     <!-- /.title -->
                     <a href="{{ url('servicios/nuevo') }}" class="btn btn-blue">Generar un servicio</a>
                 </div>

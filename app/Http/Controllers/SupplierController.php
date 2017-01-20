@@ -23,10 +23,21 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $suppliers = Supplier::latest()->paginate(5);
-        return view('proveedores.index', compact('suppliers'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $suppliers = Supplier::latest()->paginate(5);
+        }else{
+            $suppliers = Supplier::latest()
+                ->where('title', $request->input('title'))
+                ->orWhere('phone', $request->input('phone'))
+                ->paginate(5);
+        }
+        return view('proveedores.index', compact('suppliers', 'request'));
     }
 
     /**

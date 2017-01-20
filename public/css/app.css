@@ -828,6 +828,14 @@ img {
   height: 100%;
 }
 
+.form.search [class^="col-"] {
+  padding: .5rem;
+}
+
+.form.search [class^="col-"] .form-group {
+  margin: 0;
+}
+
 .layer {
   visibility: hidden;
   filter: alpha(opacity=0);

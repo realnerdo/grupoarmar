@@ -12,51 +12,56 @@
 @endsection
 
 @section('content')
-    @unless ($equipments->isEmpty())
-        {{-- <div class="row">
-            {{ Form::open(['url' => '/', 'class' => 'form']) }}
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('title', 'Título', ['class' => 'label']) }}
-                        {{ Form::input('text', 'title', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+    <div class="row">
+        {{ Form::open(['url' => url('equipos'), 'class' => 'form search', 'method' => 'GET']) }}
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('folio', 'Folio', ['class' => 'label']) }}
+                    {{ Form::input('text', 'folio', ($request->has('folio')) ? $request->input('folio') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('code', 'Código', ['class' => 'label']) }}
-                        {{ Form::input('text', 'code', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('title', 'Título', ['class' => 'label']) }}
+                    {{ Form::input('text', 'title', ($request->has('title')) ? $request->input('title') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('brand', 'Marca', ['class' => 'label']) }}
-                        {{ Form::select('brand', $brands, null, ['class' => 'select2']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('brand_id', 'Marca', ['class' => 'label']) }}
+                    {{ Form::select('brand_id', $brands, ($request->has('brand_id')) ? $request->input('brand_id') : null, ['class' => 'select2', 'data-placeholder' => 'Selecciona una marca']) }}
                 </div>
-                <!-- /.col-3 -->
-                <div class="col-3">
-                    <div class="form-group">
-                        {{ Form::label('category', 'Categoría', ['class' => 'label']) }}
-                        {{ Form::select('category', $categories, null, ['class' => 'select2']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::label('group_id', 'Grupo', ['class' => 'label']) }}
+                    {{ Form::select('group_id', $groups, ($request->has('group_id')) ? $request->input('group_id') : null, ['class' => 'select2', 'data-placeholder' => 'Selecciona un grupo']) }}
                 </div>
-                <!-- /.col-3 -->
-            {{ Form::close() }}
-        </div>
-        <!-- /.row --> --}}
-    @endunless
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::submit('Buscar', ['class' => 'btn btn-green']) }}
+                </div>
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+        {{ Form::close() }}
+    </div>
+    <!-- /.row -->
     <div class="row">
         <div class="col-12">
             @if ($equipments->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay equipos</h2>
+                    <h2 class="title">No se encontraron resultados</h2>
                     <!-- /.title -->
                     <a href="{{ url('equipos/nuevo') }}" class="btn btn-blue">Agregar un equipo</a>
                 </div>

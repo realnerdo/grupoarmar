@@ -11,43 +11,48 @@
 @endsection
 
 @section('content')
-    @unless ($users->isEmpty())
-        {{-- <div class="row">
-            {{ Form::open(['url' => '/', 'class' => 'form']) }}
-                <div class="col-4">
-                    <div class="form-group">
-                        {{ Form::label('name', 'Nombre', ['class' => 'label']) }}
-                        {{ Form::input('text', 'name', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+    <div class="row">
+        {{ Form::open(['url' => url('usuarios'), 'class' => 'form search', 'method' => 'GET']) }}
+            <div class="col-4">
+                <div class="form-group">
+                    {{ Form::label('name', 'Nombre', ['class' => 'label']) }}
+                    {{ Form::input('text', 'name', ($request->has('name')) ? $request->input('name') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-4 -->
-                <div class="col-4">
-                    <div class="form-group">
-                        {{ Form::label('username', 'Usuario', ['class' => 'label']) }}
-                        {{ Form::input('text', 'username', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-4 -->
+            <div class="col-4">
+                <div class="form-group">
+                    {{ Form::label('username', 'Usuario', ['class' => 'label']) }}
+                    {{ Form::input('text', 'username', ($request->has('username')) ? $request->input('username') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-4 -->
-                <div class="col-4">
-                    <div class="form-group">
-                        {{ Form::label('email', 'Correo electrónico', ['class' => 'label']) }}
-                        {{ Form::input('text', 'email', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-4 -->
+            <div class="col-4">
+                <div class="form-group">
+                    {{ Form::label('email', 'Correo electrónico', ['class' => 'label']) }}
+                    {{ Form::input('text', 'email', ($request->has('email')) ? $request->input('email') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-4 -->
-            {{ Form::close() }}
-        </div>
-        <!-- /.row --> --}}
-    @endunless
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-4 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::submit('Buscar', ['class' => 'btn btn-green']) }}
+                </div>
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+        {{ Form::close() }}
+    </div>
+    <!-- /.row -->
     <div class="row">
         <div class="col-12">
             @if ($users->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay usuarios</h2>
+                    <h2 class="title">No se encontraron resultados</h2>
                     <!-- /.title -->
                     <a href="{{ url('usuarios/nuevo') }}" class="btn btn-blue">Agregar un usuario</a>
                 </div>

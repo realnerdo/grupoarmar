@@ -30,10 +30,28 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $equipments = Equipment::latest()->paginate(5);
-        return view('equipos.index', compact('equipments'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $equipments = Equipment::latest()->paginate(5);
+        }else{
+            $equipments = Equipment::latest()
+                ->where('folio', $request->input('folio'))
+                ->orWhere('folio', $request->input('folio'))
+                ->orWhere('title', $request->input('title'))
+                ->orWhere('brand_id', $request->input('brand_id'))
+                ->orWhere('group_id', $request->input('group_id'))
+                ->paginate(5);
+        }
+        $brands = Brand::pluck('title', 'id');
+        $brands = [''=>''] + $brands->toArray();
+        $groups = Group::pluck('title', 'id');
+        $groups = [''=>''] + $groups->toArray();
+        return view('equipos.index', compact('equipments', 'request', 'brands', 'groups'));
     }
 
     /**

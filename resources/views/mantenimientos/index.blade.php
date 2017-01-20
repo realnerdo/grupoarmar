@@ -11,35 +11,40 @@
 @endsection
 
 @section('content')
-    @unless ($maintenances->isEmpty())
-        {{-- <div class="row">
-            {{ Form::open(['url' => '/', 'class' => 'form']) }}
-                <div class="col-6">
-                    <div class="form-group">
-                        {{ Form::label('title', 'Título', ['class' => 'label']) }}
-                        {{ Form::input('text', 'title', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+    <div class="row">
+        {{ Form::open(['url' => url('mantenimientos'), 'class' => 'form search', 'method' => 'GET']) }}
+            <div class="col-6">
+                <div class="form-group">
+                    {{ Form::label('responsible', 'Responsable', ['class' => 'label']) }}
+                    {{ Form::input('text', 'responsible', ($request->has('responsible')) ? $request->input('responsible') : null, ['class' => 'input']) }}
                 </div>
-                <!-- /.col-6 -->
-                <div class="col-6">
-                    <div class="form-group">
-                        {{ Form::label('description', 'Descripción', ['class' => 'label']) }}
-                        {{ Form::input('text', 'description', null, ['class' => 'input']) }}
-                    </div>
-                    <!-- /.form-group -->
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-6 -->
+            <div class="col-6">
+                <div class="form-group">
+                    {{ Form::label('perform_date', 'Fecha de realización', ['class' => 'label']) }}
+                    {{ Form::input('text', 'perform_date', ($request->has('perform_date')) ? $request->input('perform_date') : null, ['class' => 'input datepicker']) }}
                 </div>
-                <!-- /.col-6 -->
-            {{ Form::close() }}
-        </div>
-        <!-- /.row --> --}}
-    @endunless
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-6 -->
+            <div class="col-3">
+                <div class="form-group">
+                    {{ Form::submit('Buscar', ['class' => 'btn btn-green']) }}
+                </div>
+                <!-- /.form-group -->
+            </div>
+            <!-- /.col-3 -->
+        {{ Form::close() }}
+    </div>
+    <!-- /.row -->
     <div class="row">
         <div class="col-12">
             @if ($maintenances->isEmpty())
                 <div class="empty">
                     <i class="typcn typcn-coffee"></i>
-                    <h2 class="title">Aún no hay mantenimientos</h2>
+                    <h2 class="title">No se encontraron resultados</h2>
                     <!-- /.title -->
                     <a href="{{ url('mantenimientos/nuevo') }}" class="btn btn-blue">Agregar un mantenimiento</a>
                 </div>

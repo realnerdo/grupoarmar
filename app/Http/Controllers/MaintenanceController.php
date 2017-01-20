@@ -27,10 +27,21 @@ class MaintenanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $maintenances = Maintenance::latest()->paginate(5);
-        return view('mantenimientos.index', compact('maintenances'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $maintenances = Maintenance::latest()->paginate(5);
+        }else{
+            $maintenances = Maintenance::latest()
+                ->where('responsible', $request->input('responsible'))
+                ->orWhere('perform_date', $request->input('perform_date'))
+                ->paginate(5);
+        }
+        return view('mantenimientos.index', compact('maintenances', 'request'));
     }
 
     /**

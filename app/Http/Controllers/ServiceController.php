@@ -30,10 +30,23 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::latest()->paginate(5);
-        return view('servicios.index', compact('services'));
+        $values = '';
+        foreach($request->all() as $key => $value){
+            $values .= $value;
+        }
+        if($values == ''){
+            $services = Service::latest()->paginate(5);
+        }else{
+            $services = Service::latest()
+                ->where('folio', $request->input('folio'))
+                ->orWhere('event', $request->input('event'))
+                ->orWhere('date_start', $request->input('date_start'))
+                ->orWhere('date_end', $request->input('date_end'))
+                ->paginate(5);
+        }
+        return view('servicios.index', compact('services', 'request'));
     }
 
     /**
