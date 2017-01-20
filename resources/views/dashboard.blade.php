@@ -7,9 +7,17 @@
     <div class="row">
         <div class="col-12">
             <section class="box">
-                <h2 class="title">Eventos próximos</h2>
-                <!-- /.title -->
-                @if ($pending_services)
+                @if ($pending_services->isEmpty())
+                    <div class="empty">
+                        <i class="typcn typcn-coffee"></i>
+                        <h2 class="title">No hay eventos próximos</h2>
+                        <!-- /.title -->
+                        <a href="{{ url('servicios/nuevo') }}" class="btn btn-blue">Generar un servicio</a>
+                    </div>
+                    <!-- /.empty -->
+                @else
+                    <h2 class="title">Eventos próximos</h2>
+                    <!-- /.title -->
                     <table class="table">
                     <thead>
                         <tr>

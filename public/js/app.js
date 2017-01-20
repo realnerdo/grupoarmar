@@ -151,7 +151,8 @@ $(function(){
         dateable.datepicker({
             language: 'es-ES',
             format: 'yyyy-mm-dd',
-            startDate: new Date()
+            startDate: new Date(),
+            autoHide: true
         });
     } // End Datepicker
 

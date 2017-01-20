@@ -110,6 +110,9 @@ class EquipmentController extends Controller
                 }
             }
 
+            $availables = 0;
+            $unavailables = 0;
+
             $push = [
                 'id' => $equipment->id,
                 'text' => $equipment->title,
